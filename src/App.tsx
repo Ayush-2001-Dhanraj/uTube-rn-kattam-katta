@@ -75,7 +75,7 @@ const App = () => {
     <SafeAreaView style={styles.main}>
       <View style={styles.headingContainer}>
         <EntoTcon size={32} color="#000" name="cross" />
-        <Text style={styles.heading}>Tic Tac To</Text>
+        <Text style={styles.heading}>Kattam Katta</Text>
         <EntoTcon size={32} color="#000" name="circle" />
       </View>
       <View style={{flex: 1, justifyContent: 'center'}}>
