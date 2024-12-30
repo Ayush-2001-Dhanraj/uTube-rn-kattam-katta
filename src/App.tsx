@@ -31,6 +31,7 @@ const App = () => {
   const [currentMode, setCurrentMode] = useState<MODE>(MODE.SINGLES);
   const [scores, setScores] = useState<ScoreInterface>({cross: 0, circle: 0});
   const [modalVisible, setModalVisible] = useState<boolean>(true);
+  const [round, setRound] = useState<number>(1);
 
   const handleCellPress = (index: number) => {
     setBoardElements(preV => {
@@ -83,12 +84,14 @@ const App = () => {
     setWinner('');
     setScores({cross: 0, circle: 0});
     setWinningCombination([]);
+    setRound(1);
   };
 
   const handleNext = () => {
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
     setWinningCombination([]);
+    setRound(preV => preV + 1);
   };
 
   const toggleModel = () => setModalVisible(preV => !preV);
@@ -101,16 +104,22 @@ const App = () => {
     else isMounted.current = true;
   }, [boardElements]);
 
+  useEffect(() => {
+    handleReset();
+  }, [currentMode]);
+
   return (
     <SafeAreaView style={styles.main}>
       <Heading
         scores={scores}
         currentMode={currentMode}
+        round={round}
         toggleModel={toggleModel}
       />
 
       <Board
         boardElements={boardElements}
+        isCross={isCross}
         winner={winner}
         onPressCell={handleCellPress}
         winningCombination={winningCombination}

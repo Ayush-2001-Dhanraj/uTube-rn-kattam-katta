@@ -5,11 +5,17 @@ import {MODE, ScoreInterface} from '../constants';
 
 interface HeadingInterface {
   scores: ScoreInterface;
+  round: number;
   currentMode: MODE;
   toggleModel: () => void;
 }
 
-const Heading = ({scores, currentMode, toggleModel}: HeadingInterface) => {
+const Heading = ({
+  scores,
+  currentMode,
+  toggleModel,
+  round,
+}: HeadingInterface) => {
   return (
     <View style={styles.headingContainer}>
       <View style={styles.headingBox}>
@@ -21,6 +27,9 @@ const Heading = ({scores, currentMode, toggleModel}: HeadingInterface) => {
       <TouchableOpacity style={styles.headingBox} onPress={toggleModel}>
         <Text style={styles.heading}>Kattam Katta</Text>
         <Text style={styles.headingTxt}>{currentMode}</Text>
+        {currentMode === MODE.MULTI && (
+          <Text style={styles.headingTxt}>Round: {round}</Text>
+        )}
       </TouchableOpacity>
       <View style={styles.headingBox}>
         <EntoTcon size={32} color="#000" name="circle" />
