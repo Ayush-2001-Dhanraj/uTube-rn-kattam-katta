@@ -1,19 +1,6 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Modal,
-} from 'react-native';
-import EntoTcon from 'react-native-vector-icons/Entypo';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  BoardElement,
-  MODE,
-  ModeToDescription,
-  ScoreInterface,
-} from './constants';
+import {BoardElement, MODE, ScoreInterface} from './constants';
 import ModeSelector from './components/ModeSelector';
 import Board from './components/Board';
 import Heading from './components/Heading';
@@ -125,7 +112,7 @@ const App = () => {
         winningCombination={winningCombination}
       />
 
-      <WinnerText winner={winner} />
+      <WinnerText winner={winner} scores={scores} currentMode={currentMode} />
 
       <ActionSection
         winner={winner}

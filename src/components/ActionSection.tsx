@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   actionBtn: {
     backgroundColor: '#000',
-    padding: 10,
+    padding: 8,
     borderRadius: 8,
   },
   actionContainer: {
