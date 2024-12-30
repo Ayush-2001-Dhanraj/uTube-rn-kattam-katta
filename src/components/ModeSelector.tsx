@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
+import EntoTcon from 'react-native-vector-icons/Entypo';
 import {MODE, ModeToDescription} from '../constants';
 
 interface ModelSectorInterface {
@@ -7,6 +8,7 @@ interface ModelSectorInterface {
   modalVisible: boolean;
   onChangeMode: (key: keyof typeof MODE) => void;
   toggleModel: () => void;
+  canClose: boolean;
 }
 
 const ModeSelector = ({
@@ -14,12 +16,23 @@ const ModeSelector = ({
   modalVisible,
   onChangeMode,
   toggleModel,
+  canClose,
 }: ModelSectorInterface) => {
   return (
-    <Modal visible={modalVisible} transparent>
+    <Modal visible={modalVisible} transparent animationType="fade">
       <View style={styles.modalBackdrop}>
         <View style={styles.modalContainer}>
-          <Text style={styles.modelHeading}>Mode Selection</Text>
+          <View style={styles.titleSection}>
+            <Text style={styles.modelHeading}>Mode Selection</Text>
+            {canClose && (
+              <EntoTcon
+                size={32}
+                color="#000"
+                name="circle-with-cross"
+                onPress={toggleModel}
+              />
+            )}
+          </View>
           {Object.keys(MODE).map(key => (
             <TouchableOpacity
               onPress={() => onChangeMode(key as keyof typeof MODE)}
@@ -47,6 +60,7 @@ const ModeSelector = ({
 export default ModeSelector;
 
 const styles = StyleSheet.create({
+  titleSection: {flexDirection: 'row'},
   selectedMode: {
     elevation: 8,
     borderTopRightRadius: 50,
@@ -66,6 +80,7 @@ const styles = StyleSheet.create({
   modelHeading: {
     fontSize: 20,
     fontWeight: 'bold',
+    flex: 1,
   },
   modeBtn: {
     flexDirection: 'row',

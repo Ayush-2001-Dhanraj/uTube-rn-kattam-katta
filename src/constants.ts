@@ -20,3 +20,5 @@ export interface ScoreInterface {
     cross: number;
     circle: number
 }
+
+export type BoardElement = 'cross' | 'circle' | 'empty';
