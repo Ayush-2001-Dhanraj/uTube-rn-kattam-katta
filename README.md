@@ -1,3 +1,6 @@
 #### Basic Kattam-Katta Mobile Game
 
-Basic Mobile game of Kattam-katta
+A Mobile game of Kattam-katta with:
+
+- Singles Round Match
+- Multi Round Match
