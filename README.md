@@ -4,6 +4,7 @@ A Mobile game of Kattam-katta with:
 
 - Singles Round Match
 - Multi Round Match
+- vs BOT match
 
 <img src="https://github.com/user-attachments/assets/b0dc71aa-ea1e-40e4-9bb8-892a73918384" width = "300" />
 <img src="https://github.com/user-attachments/assets/63a5fe0d-d47c-486a-bc0d-f33806c9da23" width = "300" />
