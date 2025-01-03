@@ -19,8 +19,10 @@ const App = () => {
   const [scores, setScores] = useState<ScoreInterface>({cross: 0, circle: 0});
   const [modalVisible, setModalVisible] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCellPress = (index: number) => {
+    setIsLoading(true);
     setBoardElements(preV => {
       const newBoard = [...preV];
       newBoard[index] = isCross ? 'cross' : 'circle';
@@ -64,6 +66,7 @@ const App = () => {
     if (!boardElements.includes('empty') && !winner) {
       setWinner('Draw');
     }
+    setIsLoading(false);
   };
 
   const handleReset = () => {
@@ -72,6 +75,7 @@ const App = () => {
     setScores({cross: 0, circle: 0});
     setWinningCombination([]);
     setRound(1);
+    setIsCross(true);
   };
 
   const handleNext = () => {
@@ -79,6 +83,20 @@ const App = () => {
     setWinner('');
     setWinningCombination([]);
     setRound(preV => preV + 1);
+  };
+
+  const makeRandomChoice = () => {
+    // get indexes of empty cells
+    const availableIndexes = [];
+    for (let i = 0; i < boardElements.length; i++) {
+      if (boardElements[i] === 'empty') {
+        availableIndexes.push(i);
+      }
+    }
+    // choose a random cell from available cells
+    handleCellPress(
+      availableIndexes[Math.floor(Math.random() * availableIndexes.length)],
+    );
   };
 
   const toggleModel = () => setModalVisible(preV => !preV);
@@ -95,6 +113,16 @@ const App = () => {
     handleReset();
   }, [currentMode]);
 
+  useEffect(() => {
+    // if isCross is false then it means bot's turn
+    if (!isCross && currentMode === MODE.BOT && !isLoading && !winner) {
+      setTimeout(() => {
+        // To simulate that the bot is thinking
+        makeRandomChoice();
+      }, 2000);
+    }
+  }, [isCross, isLoading, currentMode]);
+
   return (
     <SafeAreaView style={styles.main}>
       <Heading
@@ -110,6 +138,8 @@ const App = () => {
         winner={winner}
         onPressCell={handleCellPress}
         winningCombination={winningCombination}
+        disabled={(currentMode === MODE.BOT && !isCross) || isLoading}
+        currentMode={currentMode}
       />
 
       <WinnerText winner={winner} scores={scores} currentMode={currentMode} />

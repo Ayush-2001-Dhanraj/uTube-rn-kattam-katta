@@ -4,7 +4,7 @@ import Cell from './Cell';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import FA5Icon from 'react-native-vector-icons/FontAwesome5';
-import {BoardElement} from '../constants';
+import {BoardElement, MODE} from '../constants';
 
 interface BoardInterface {
   boardElements: BoardElement[];
@@ -12,6 +12,8 @@ interface BoardInterface {
   onPressCell: (index: number) => void;
   winningCombination: number[];
   isCross: boolean;
+  disabled: boolean;
+  currentMode: MODE;
 }
 
 const Board = ({
@@ -20,6 +22,8 @@ const Board = ({
   onPressCell,
   winningCombination,
   isCross,
+  disabled,
+  currentMode,
 }: BoardInterface) => {
   return (
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -57,12 +61,27 @@ const Board = ({
                 handlePress={() => {
                   onPressCell(index);
                 }}
-                disabled={!!winner}
+                disabled={!!winner || disabled}
                 fillColor={fillColor}
               />
             );
           }}
         />
+      </View>
+      <View style={{alignItems: 'center', padding: 8}}>
+        {winner ? (
+          <Text style={styles.infoTxt}>
+            {currentMode == MODE.MULTI ? 'Round Completed' : 'Game Over'}
+          </Text>
+        ) : (
+          <Text style={styles.infoTxt}>
+            {currentMode === MODE.BOT && !isCross
+              ? 'Bot is thinking...'
+              : isCross
+              ? `Cross's turn${currentMode === MODE.BOT ? ' (You)' : ''}`
+              : "Circle's Turn"}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -73,5 +92,9 @@ export default Board;
 const styles = StyleSheet.create({
   boardBox: {
     gap: 8,
+  },
+  infoTxt: {
+    fontSize: 18,
+    fontWeight: '300',
   },
 });

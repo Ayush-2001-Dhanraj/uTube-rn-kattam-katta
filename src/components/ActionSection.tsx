@@ -18,9 +18,7 @@ const ActionSection = ({
   return (
     <View style={styles.actionContainer}>
       {currentMode === MODE.SINGLES && (
-        <TouchableOpacity
-          onPress={handleReset}
-          style={[styles.actionBtn, styles.fullWidth]}>
+        <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
           <Text style={styles.actionTxt}>{winner ? 'Re-match' : 'Reset'}</Text>
         </TouchableOpacity>
       )}
@@ -35,11 +33,7 @@ const ActionSection = ({
           <TouchableOpacity
             disabled={!winner}
             onPress={handleNext}
-            style={[
-              styles.actionBtn,
-              styles.fullWidth,
-              !winner && styles.disabledBtn,
-            ]}>
+            style={[styles.actionBtn, !winner && styles.disabledBtn]}>
             <Text style={styles.actionTxt}>Next</Text>
           </TouchableOpacity>
         </>
@@ -66,9 +60,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
-  fullWidth: {
-    flex: 1,
-  },
   smallBtn: {
     flex: 0,
   },
@@ -78,7 +69,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   actionContainer: {
-    flexDirection: 'row',
     gap: 10,
   },
 });
