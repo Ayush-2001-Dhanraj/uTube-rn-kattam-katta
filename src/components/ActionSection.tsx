@@ -4,7 +4,7 @@ import {MODE} from '../constants';
 
 interface ActionSectionInterface {
   winner: string;
-  currentMode: MODE;
+  currentMode: keyof typeof MODE;
   handleReset: () => void;
   handleNext: () => void;
 }
@@ -17,11 +17,14 @@ const ActionSection = ({
 }: ActionSectionInterface) => {
   return (
     <View style={styles.actionContainer}>
-      {currentMode === MODE.SINGLES && (
-        <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
-          <Text style={styles.actionTxt}>{winner ? 'Re-match' : 'Reset'}</Text>
-        </TouchableOpacity>
-      )}
+      {currentMode === MODE.SINGLES ||
+        (currentMode === MODE.BOT && (
+          <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
+            <Text style={styles.actionTxt}>
+              {winner ? 'Re-match' : 'Reset'}
+            </Text>
+          </TouchableOpacity>
+        ))}
 
       {currentMode === MODE.MULTI && (
         <>

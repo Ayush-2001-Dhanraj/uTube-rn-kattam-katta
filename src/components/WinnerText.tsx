@@ -5,48 +5,48 @@ import {MODE, ScoreInterface} from '../constants';
 interface WinnerTextInterface {
   winner: string;
   scores: ScoreInterface;
-  currentMode: MODE;
+  currentMode: keyof typeof MODE;
 }
 
 const WinnerText = ({winner, scores, currentMode}: WinnerTextInterface) => {
   const [message, setMessage] = useState<string>('');
 
-  const updateMessage = () => {
-    if (winner === 'Draw') {
-      setMessage(
-        currentMode !== MODE.MULTI
-          ? 'No one is the winner.'
-          : 'Its is a Draw. Try again next round.',
-      );
-    } else if (scores.circle === scores.cross) {
-      setMessage('Love All.');
-    } else {
-      if (currentMode !== MODE.MULTI) {
-        setMessage(`${winner} is the winner.`);
-      } else {
-        let tempMessage = `${winner} won this round`;
-        if (winner === 'cross') {
-          tempMessage +=
-            scores.cross > scores.circle
-              ? ' and is leading.'
-              : scores.cross < scores.circle
-              ? ' but is trailing.'
-              : '';
-        } else if (winner === 'circle') {
-          tempMessage +=
-            scores.circle > scores.cross
-              ? ' and is leading.'
-              : scores.circle < scores.cross
-              ? ' but is trailing.'
-              : '';
-        }
-        setMessage(tempMessage);
-      }
+  const getDrawMessage = () =>
+    currentMode === MODE.MULTI
+      ? 'It is a Draw. Try harder next round.'
+      : 'No one is the winner.';
+
+  const getWinnerMessage = () => {
+    if (currentMode === MODE.MULTI) {
+      const leadingText =
+        scores.cross > scores.circle
+          ? ' and is leading.'
+          : scores.cross < scores.circle
+          ? ' but is trailing.'
+          : '';
+      return `${winner} won this round${
+        winner === 'cross' || winner === 'circle' ? leadingText : ''
+      }`;
     }
+
+    if (currentMode === MODE.BOT) {
+      // assuming circle is the BOT
+      if (scores.circle > scores.cross)
+        return "It's a BOT's world and u are happy to be living in it!";
+      else return 'You won this time.';
+    }
+
+    return `${winner} is the winner.`;
   };
 
   useEffect(() => {
-    updateMessage();
+    if (winner === 'Draw') {
+      setMessage(getDrawMessage());
+    } else if (scores.circle === scores.cross) {
+      setMessage('Love All.');
+    } else {
+      setMessage(getWinnerMessage());
+    }
   }, [currentMode, winner, scores]);
 
   return <Text style={styles.winnerTxt}>{winner && message}</Text>;

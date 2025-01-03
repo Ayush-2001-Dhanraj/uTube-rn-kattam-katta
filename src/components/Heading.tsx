@@ -6,7 +6,7 @@ import {MODE, ScoreInterface} from '../constants';
 interface HeadingInterface {
   scores: ScoreInterface;
   round: number;
-  currentMode: MODE;
+  currentMode: keyof typeof MODE;
   toggleModel: () => void;
 }
 

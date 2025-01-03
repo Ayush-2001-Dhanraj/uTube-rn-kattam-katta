@@ -15,7 +15,9 @@ const App = () => {
   const [winner, setWinner] = useState('');
   const [winningCombination, setWinningCombination] = useState<number[]>([]);
   const isMounted = useRef(false);
-  const [currentMode, setCurrentMode] = useState<MODE>(MODE.SINGLES);
+  const [currentMode, setCurrentMode] = useState<keyof typeof MODE>(
+    MODE.SINGLES,
+  );
   const [scores, setScores] = useState<ScoreInterface>({cross: 0, circle: 0});
   const [modalVisible, setModalVisible] = useState<boolean>(true);
   const [round, setRound] = useState<number>(1);
@@ -75,7 +77,6 @@ const App = () => {
     setScores({cross: 0, circle: 0});
     setWinningCombination([]);
     setRound(1);
-    setIsCross(true);
   };
 
   const handleNext = () => {
@@ -152,7 +153,6 @@ const App = () => {
       />
 
       <ModeSelector
-        currentMode={currentMode}
         modalVisible={modalVisible}
         onChangeMode={handleModeChange}
         toggleModel={toggleModel}

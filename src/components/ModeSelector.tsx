@@ -1,10 +1,9 @@
 import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import {MODE, ModeToDescription} from '../constants';
 
 interface ModelSectorInterface {
-  currentMode: MODE;
   modalVisible: boolean;
   onChangeMode: (key: keyof typeof MODE) => void;
   toggleModel: () => void;
@@ -12,12 +11,20 @@ interface ModelSectorInterface {
 }
 
 const ModeSelector = ({
-  currentMode,
   modalVisible,
   onChangeMode,
   toggleModel,
   canClose,
 }: ModelSectorInterface) => {
+  const [selectedModel, setSelectedModel] = useState<keyof typeof MODE>(
+    MODE.SINGLES,
+  );
+
+  const handleOnPressStart = () => {
+    onChangeMode(selectedModel);
+    toggleModel();
+  };
+
   return (
     <Modal visible={modalVisible} transparent animationType="fade">
       <View style={styles.modalBackdrop}>
@@ -35,10 +42,10 @@ const ModeSelector = ({
           </View>
           {Object.keys(MODE).map(key => (
             <TouchableOpacity
-              onPress={() => onChangeMode(key as keyof typeof MODE)}
+              onPress={() => setSelectedModel(key as keyof typeof MODE)}
               style={[
                 styles.modeBtn,
-                currentMode === MODE[key as keyof typeof MODE] &&
+                selectedModel === MODE[key as keyof typeof MODE] &&
                   styles.selectedMode,
               ]}
               key={key}>
@@ -48,7 +55,9 @@ const ModeSelector = ({
               </Text>
             </TouchableOpacity>
           ))}
-          <TouchableOpacity style={styles.startBtn} onPress={toggleModel}>
+          <TouchableOpacity
+            style={styles.startBtn}
+            onPress={handleOnPressStart}>
             <Text style={styles.startTxt}>Start</Text>
           </TouchableOpacity>
         </View>

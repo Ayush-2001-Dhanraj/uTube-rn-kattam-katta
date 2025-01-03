@@ -13,7 +13,7 @@ interface BoardInterface {
   winningCombination: number[];
   isCross: boolean;
   disabled: boolean;
-  currentMode: MODE;
+  currentMode: keyof typeof MODE;
 }
 
 const Board = ({
