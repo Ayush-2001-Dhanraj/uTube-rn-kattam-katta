@@ -29,7 +29,7 @@ const WinnerText = ({winner, scores, currentMode}: WinnerTextInterface) => {
       }`;
     }
 
-    if (currentMode === MODE.BOT) {
+    if (currentMode.includes('BOT')) {
       // assuming circle is the BOT
       if (scores.circle > scores.cross)
         return "It's a BOT's world and u are happy to be living in it!";

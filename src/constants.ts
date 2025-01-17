@@ -1,19 +1,25 @@
 export enum MODE {
     SINGLES = "SINGLES",
     MULTI = "MULTI",
-    BOT = "BOT"
+    BOT_EASY = "BOT_EASY",
+    BOT_MID = "BOT_MID",
+    AI_BOT = "AI_BOT",
 }
 
 export enum ModeDescription {
-    SINGLES = "One Round decides a winner",
-    MULTI = "Multiple rounds over time determines a winner",
-    BOT = "Alone but Still wanna play. Giving introvert!"
+    SINGLES = "One Round at a time",
+    MULTI = "Back to back to back!",
+    BOT_EASY = "Deer in headlights!",
+    BOT_MID = "Giving introvert!",
+    AI_BOT = "Can you beat the AI? 🧠"
 }
 
 export const ModeToDescription: Record<MODE, ModeDescription> = {
     [MODE.SINGLES]: ModeDescription.SINGLES,
     [MODE.MULTI]: ModeDescription.MULTI,
-    [MODE.BOT]: ModeDescription.BOT
+    [MODE.BOT_EASY]: ModeDescription.BOT_EASY,
+    [MODE.BOT_MID]: ModeDescription.BOT_MID,
+    [MODE.AI_BOT]: ModeDescription.AI_BOT,
 }
 
 export interface ScoreInterface {
@@ -22,3 +28,6 @@ export interface ScoreInterface {
 }
 
 export type BoardElement = 'cross' | 'circle' | 'empty';
+
+export const MID_PROBABILITY = 0.6;
+export const HARD_PROBABILITY = 0.9;

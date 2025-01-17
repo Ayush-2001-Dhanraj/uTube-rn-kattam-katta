@@ -75,10 +75,10 @@ const Board = ({
           </Text>
         ) : (
           <Text style={styles.infoTxt}>
-            {currentMode === MODE.BOT && !isCross
+            {currentMode.includes('BOT') && !isCross
               ? 'Bot is thinking...'
               : isCross
-              ? `Cross's turn${currentMode === MODE.BOT ? ' (You)' : ''}`
+              ? `Cross's turn${currentMode.includes('BOT') ? ' (You)' : ''}`
               : "Circle's Turn"}
           </Text>
         )}

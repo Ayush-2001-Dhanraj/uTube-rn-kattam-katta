@@ -1,6 +1,12 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
 import React, {useEffect, useRef, useState, useCallback} from 'react';
-import {BoardElement, MODE, ScoreInterface} from './constants';
+import {
+  BoardElement,
+  HARD_PROBABILITY,
+  MID_PROBABILITY,
+  MODE,
+  ScoreInterface,
+} from './constants';
 import ModeSelector from './components/ModeSelector';
 import Board from './components/Board';
 import Heading from './components/Heading';
@@ -314,12 +320,24 @@ const App = () => {
   const handleModeChange = (newMode: keyof typeof MODE) =>
     setCurrentMode(MODE[newMode]);
 
+  const botMoveLogic = () => {
+    if (currentMode === MODE.BOT_EASY) {
+      makeRandomChoice();
+    } else if (currentMode === MODE.BOT_MID) {
+      Math.random() <= MID_PROBABILITY
+        ? makeSmarterChoice()
+        : makeRandomChoice();
+    } else {
+      Math.random() <= HARD_PROBABILITY ? findBestMove() : makeRandomChoice();
+    }
+  };
+
   const handleBotTurn = useCallback(() => {
     // if isCross is false then it means bot's turn
-    if (!isCross && currentMode === MODE.BOT && !isLoading && !winner) {
+    if (!isCross && currentMode.includes('BOT') && !isLoading && !winner) {
       const botMoveTimer = setTimeout(() => {
-        // makeSmarterChoice(); // Bot's move logic
-        findBestMove();
+        // Bot's move logic
+        botMoveLogic();
       }, 2000); // Simulate thinking time
 
       return () => clearTimeout(botMoveTimer); // Cleanup timer on dependency change
@@ -354,7 +372,7 @@ const App = () => {
         winner={winner}
         onPressCell={handleCellPress}
         winningCombination={winningCombination}
-        disabled={(currentMode === MODE.BOT && !isCross) || isLoading}
+        disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
         currentMode={currentMode}
       />
 

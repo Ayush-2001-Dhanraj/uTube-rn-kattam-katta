@@ -16,12 +16,12 @@ const ModeSelector = ({
   toggleModel,
   canClose,
 }: ModelSectorInterface) => {
-  const [selectedModel, setSelectedModel] = useState<keyof typeof MODE>(
-    MODE.SINGLES,
+  const [selectedMode, setSelectedMode] = useState<keyof typeof MODE>(
+    MODE.BOT_EASY,
   );
 
   const handleOnPressStart = () => {
-    onChangeMode(selectedModel);
+    onChangeMode(selectedMode);
     toggleModel();
   };
 
@@ -42,10 +42,10 @@ const ModeSelector = ({
           </View>
           {Object.keys(MODE).map(key => (
             <TouchableOpacity
-              onPress={() => setSelectedModel(key as keyof typeof MODE)}
+              onPress={() => setSelectedMode(key as keyof typeof MODE)}
               style={[
                 styles.modeBtn,
-                selectedModel === MODE[key as keyof typeof MODE] &&
+                selectedMode === MODE[key as keyof typeof MODE] &&
                   styles.selectedMode,
               ]}
               key={key}>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   modeName: {
     fontSize: 18,
     fontWeight: 'bold',
-    width: 80,
+    width: 90,
   },
   modeDescription: {
     fontSize: 16,
