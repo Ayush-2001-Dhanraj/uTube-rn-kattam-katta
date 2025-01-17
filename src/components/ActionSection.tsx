@@ -17,14 +17,11 @@ const ActionSection = ({
 }: ActionSectionInterface) => {
   return (
     <View style={styles.actionContainer}>
-      {currentMode === MODE.SINGLES ||
-        (currentMode === MODE.BOT && (
-          <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
-            <Text style={styles.actionTxt}>
-              {winner ? 'Re-match' : 'Reset'}
-            </Text>
-          </TouchableOpacity>
-        ))}
+      {(currentMode === MODE.SINGLES || currentMode === MODE.BOT) && (
+        <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
+          <Text style={styles.actionTxt}>{winner ? 'Re-match' : 'Reset'}</Text>
+        </TouchableOpacity>
+      )}
 
       {currentMode === MODE.MULTI && (
         <>
