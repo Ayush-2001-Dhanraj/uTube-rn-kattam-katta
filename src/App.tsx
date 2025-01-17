@@ -1,5 +1,5 @@
 import {SafeAreaView, StyleSheet} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {BoardElement, MODE, ScoreInterface} from './constants';
 import ModeSelector from './components/ModeSelector';
 import Board from './components/Board';
@@ -30,6 +30,7 @@ const App = () => {
       newBoard[index] = isCross ? 'cross' : 'circle';
       return newBoard;
     });
+    // For next  player
     setIsCross(preV => !preV);
   };
 
@@ -68,7 +69,25 @@ const App = () => {
     if (!boardElements.includes('empty') && !winner) {
       setWinner('Draw');
     }
+
     setIsLoading(false);
+  };
+
+  const checkWinningCondition = (board: BoardElement[], symbol: string) => {
+    const winningCombinations = [
+      [0, 1, 2], // Row 1
+      [3, 4, 5], // Row 2
+      [6, 7, 8], // Row 3
+      [0, 3, 6], // Column 1
+      [1, 4, 7], // Column 2
+      [2, 5, 8], // Column 3
+      [0, 4, 8], // Diagonal 1
+      [2, 4, 6], // Diagonal 2
+    ];
+
+    return winningCombinations.some(([a, b, c]) => {
+      return board[a] === symbol && board[b] === symbol && board[c] === symbol;
+    });
   };
 
   const handleReset = () => {
@@ -86,15 +105,60 @@ const App = () => {
     setRound(preV => preV + 1);
   };
 
+  const getAvailableIndexes = () =>
+    boardElements
+      .map((value, index) => (value === 'empty' ? index : null))
+      .filter(mappedValue => mappedValue !== null);
+
   const makeRandomChoice = () => {
     // get indexes of empty cells
-    const availableIndexes = [];
-    for (let i = 0; i < boardElements.length; i++) {
-      if (boardElements[i] === 'empty') {
-        availableIndexes.push(i);
+    const availableIndexes = getAvailableIndexes();
+    // choose a random cell from available cells
+    handleCellPress(
+      availableIndexes[Math.floor(Math.random() * availableIndexes.length)],
+    );
+  };
+
+  const makeSmarterChoice = () => {
+    const availableIndexes = getAvailableIndexes();
+
+    // winning move
+    for (const index of availableIndexes) {
+      const tempBoard = [...boardElements];
+      tempBoard[index] = 'circle';
+      if (checkWinningCondition(tempBoard, 'circle')) {
+        handleCellPress(index);
+        return;
       }
     }
-    // choose a random cell from available cells
+
+    // blocking move
+    for (const index of availableIndexes) {
+      const tempBoard = [...boardElements];
+      tempBoard[index] = 'cross';
+      // Means the player is about to win if they make this move, so block them
+      if (checkWinningCondition(tempBoard, 'cross')) {
+        handleCellPress(index);
+        return;
+      }
+    }
+
+    // Strategic move: Center > Corners > Edges
+    const center = 4;
+    if (availableIndexes.includes(center)) {
+      handleCellPress(4);
+      return;
+    }
+
+    const corners = [0, 2, 6, 8];
+    for (const index of corners) {
+      if (availableIndexes.includes(index)) {
+        handleCellPress(index);
+        return;
+      }
+    }
+
+    // random fallback
     handleCellPress(
       availableIndexes[Math.floor(Math.random() * availableIndexes.length)],
     );
@@ -104,6 +168,17 @@ const App = () => {
 
   const handleModeChange = (newMode: keyof typeof MODE) =>
     setCurrentMode(MODE[newMode]);
+
+  const handleBotTurn = useCallback(() => {
+    // if isCross is false then it means bot's turn
+    if (!isCross && currentMode === MODE.BOT && !isLoading && !winner) {
+      const botMoveTimer = setTimeout(() => {
+        makeSmarterChoice(); // Bot's move logic
+      }, 2000); // Simulate thinking time
+
+      return () => clearTimeout(botMoveTimer); // Cleanup timer on dependency change
+    }
+  }, [isCross, isLoading, winner, currentMode]);
 
   useEffect(() => {
     if (isMounted.current) checkIsGameOver();
@@ -115,14 +190,8 @@ const App = () => {
   }, [currentMode]);
 
   useEffect(() => {
-    // if isCross is false then it means bot's turn
-    if (!isCross && currentMode === MODE.BOT && !isLoading && !winner) {
-      setTimeout(() => {
-        // To simulate that the bot is thinking
-        makeRandomChoice();
-      }, 2000);
-    }
-  }, [isCross, isLoading, currentMode]);
+    handleBotTurn();
+  }, [handleBotTurn]);
 
   return (
     <SafeAreaView style={styles.main}>
