@@ -90,6 +90,40 @@ const App = () => {
     });
   };
 
+  const evaluateBoard = (board: BoardElement[]) => {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8], // Rows
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8], // Columns
+      [0, 4, 8],
+      [2, 4, 6], // Diagonals
+    ];
+
+    for (let line of lines) {
+      const [a, b, c] = line;
+
+      // Check if all three cells in the line are the same and not empty
+      if (
+        board[a] !== 'empty' &&
+        board[a] === board[b] &&
+        board[a] === board[c]
+      ) {
+        return board[a]; // Return the winner ('circle' or 'cross')
+      }
+    }
+
+    // Check for a draw
+    if (!board.includes('empty')) {
+      return 'draw'; // No spaces left, it's a draw
+    }
+
+    // No winner yet
+    return null; // Game is still ongoing
+  };
+
   const handleReset = () => {
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
@@ -164,6 +198,117 @@ const App = () => {
     );
   };
 
+  const heuristicEvaluation = (board: BoardElement[]): number => {
+    let score = 0;
+    const winningCombinations = [
+      [0, 1, 2], // Row 1
+      [3, 4, 5], // Row 2
+      [6, 7, 8], // Row 3
+      [0, 3, 6], // Column 1
+      [1, 4, 7], // Column 2
+      [2, 5, 8], // Column 3
+      [0, 4, 8], // Diagonal 1
+      [2, 4, 6], // Diagonal 2
+    ];
+
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+      const lineSymbols = [board[a], board[b], board[c]];
+
+      // Favour lines closer to winning
+      if (
+        lineSymbols.filter(symbol => symbol === 'circle').length == 2 &&
+        lineSymbols.includes('empty')
+      )
+        score += 5;
+
+      // penalize lines closer to opponent winning
+      if (
+        lineSymbols.filter(symbol => symbol === 'cross').length == 2 &&
+        lineSymbols.includes('empty')
+      )
+        score -= 5;
+    }
+
+    return score;
+  };
+
+  const minMax = (
+    board: BoardElement[],
+    depth: number,
+    isMaximizing: boolean,
+    alpha: number,
+    beta: number,
+    maxDepth: number,
+  ): number => {
+    const winner = evaluateBoard(board);
+
+    if (winner === 'circle') return 10 - depth; // Bot Wins
+    if (winner === 'cross') return depth - 10; // opponent Wins
+    if (winner === 'draw') return 0; // Draw
+
+    if (depth >= maxDepth) return heuristicEvaluation(board);
+
+    if (isMaximizing) {
+      // current turn is of that of bot and we need to be to of maximum score
+      let maxEval = -Infinity;
+      board.forEach((value, index) => {
+        if (value === 'empty') {
+          board[index] = 'circle';
+          const eva = minMax(board, depth + 1, false, alpha, beta, maxDepth);
+          board[index] = 'empty';
+          maxEval = Math.max(maxEval, eva);
+          alpha = Math.max(alpha, eva);
+          if (beta <= alpha) return maxEval;
+        }
+      });
+      return maxEval;
+    } else {
+      // current turn is of that of opponent and we need to be to of minimum score
+      let minEval = Infinity;
+      board.forEach((value, index) => {
+        if (value === 'empty') {
+          board[index] = 'cross';
+          const eva = minMax(board, depth + 1, true, alpha, beta, maxDepth);
+          board[index] = 'empty';
+          minEval = Math.min(minEval, eva);
+          beta = Math.min(beta, eva);
+          if (beta <= alpha) return minEval;
+        }
+      });
+      return minEval;
+    }
+  };
+
+  const findBestMove = () => {
+    let bestMove = -1;
+    let bestScore = -Infinity;
+    const maxDepth = 4;
+
+    const tempBoard = [...boardElements];
+
+    const availableIndexes = getAvailableIndexes();
+
+    for (const index of availableIndexes) {
+      tempBoard[index] = 'circle';
+      const moveScore = minMax(
+        tempBoard,
+        0,
+        false,
+        -Infinity,
+        Infinity,
+        maxDepth,
+      );
+      tempBoard[index] = 'empty';
+      if (moveScore > bestScore) {
+        bestScore = moveScore;
+        bestMove = index;
+      }
+    }
+
+    if (bestMove !== -1) handleCellPress(bestMove);
+  };
+
   const toggleModel = () => setModalVisible(preV => !preV);
 
   const handleModeChange = (newMode: keyof typeof MODE) =>
@@ -173,7 +318,8 @@ const App = () => {
     // if isCross is false then it means bot's turn
     if (!isCross && currentMode === MODE.BOT && !isLoading && !winner) {
       const botMoveTimer = setTimeout(() => {
-        makeSmarterChoice(); // Bot's move logic
+        // makeSmarterChoice(); // Bot's move logic
+        findBestMove();
       }, 2000); // Simulate thinking time
 
       return () => clearTimeout(botMoveTimer); // Cleanup timer on dependency change
