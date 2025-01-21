@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import React, {useEffect, useRef, useState, useCallback} from 'react';
 import {
   BoardElement,
@@ -12,6 +12,8 @@ import Board from './components/Board';
 import Heading from './components/Heading';
 import WinnerText from './components/WinnerText';
 import ActionSection from './components/ActionSection';
+import styles from './App.styles';
+import SplashScreen from './screens/SplashScreen';
 
 const App = () => {
   const [boardElements, setBoardElements] = useState<BoardElement[]>(
@@ -358,7 +360,13 @@ const App = () => {
   }, [handleBotTurn]);
 
   return (
-    <SafeAreaView style={styles.main}>
+    <SafeAreaView style={styles.app}>
+      <SplashScreen />
+    </SafeAreaView>
+  );
+
+  return (
+    <SafeAreaView style={styles.app}>
       <Heading
         scores={scores}
         currentMode={currentMode}
@@ -396,11 +404,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    margin: 8,
-    gap: 10,
-  },
-});
