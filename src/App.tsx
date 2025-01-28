@@ -13,9 +13,13 @@ import Heading from './components/Heading';
 import WinnerText from './components/WinnerText';
 import ActionSection from './components/ActionSection';
 import styles from './App.styles';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import HomeScreen from './screens/HomeScreen';
 import SplashScreen from './screens/SplashScreen';
+import GameScreen from './screens/GameScreen';
 
-const App = () => {
+const InitialComponent = () => {
   const [boardElements, setBoardElements] = useState<BoardElement[]>(
     new Array(9).fill('empty', 0, 9),
   );
@@ -359,11 +363,11 @@ const App = () => {
     handleBotTurn();
   }, [handleBotTurn]);
 
-  return (
-    <SafeAreaView style={styles.app}>
-      <SplashScreen />
-    </SafeAreaView>
-  );
+  // return (
+  //   <SafeAreaView style={styles.app}>
+  //     <SplashScreen />
+  //   </SafeAreaView>
+  // );
 
   return (
     <SafeAreaView style={styles.app}>
@@ -400,6 +404,31 @@ const App = () => {
         canClose
       />
     </SafeAreaView>
+  );
+};
+
+export type RootStackList = {
+  Home: undefined;
+  Splash: undefined;
+  Game: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackList>();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerShown: false,
+          contentStyle: styles.app,
+        }}>
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Game" component={GameScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
