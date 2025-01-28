@@ -7,6 +7,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     gap: 10,
+    borderWidth: 4,
+    borderColor: COLORS.secondary,
   },
 });
 
