@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import React from 'react';
-import {MODE, ScoreInterface} from '../constants';
+import {MODE, ScoreInterface} from '../../constants';
+import styles from './styles';
 
 interface HeadingInterface {
   scores: ScoreInterface;
@@ -37,30 +38,3 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
 };
 
 export default Heading;
-
-const styles = StyleSheet.create({
-  headingBox: {
-    gap: 20,
-  },
-  headingTxt: {
-    textAlign: 'center',
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    paddingHorizontal: 16,
-    borderBottomWidth: 4,
-    textShadowRadius: 4,
-    textShadowOffset: {
-      height: 2,
-      width: 2,
-    },
-  },
-  headingContainer: {
-    flexDirection: 'row',
-    gap: 10,
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-  },
-});
