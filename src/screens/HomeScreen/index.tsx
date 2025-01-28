@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import Button from '../../components/Button';
 import {MODE, ModeToDescription} from '../../constants';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackList} from '../../App';
 
 const artworkLocations = [
   require('../../assets/images/cross.png'),
@@ -11,13 +13,15 @@ const artworkLocations = [
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-const HomeScreen = () => {
+type HomeScreenProps = NativeStackScreenProps<RootStackList, 'Home'>;
+
+const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [selectedMode, setSelectedMode] = useState<MODE>();
 
   const [artworks, setArtworks] = useState<any[]>([]);
 
   const handlePressStart = () => {
-    console.log('Start Pressed');
+    if (selectedMode) navigation.navigate('Game', {currentMode: selectedMode});
   };
 
   const handleChangeSelectedMode = (newMode: MODE) => {
@@ -91,6 +95,7 @@ const HomeScreen = () => {
             btnStyles={styles.startBtn}
             onPress={handlePressStart}
             text="Start"
+            disabled={!selectedMode}
           />
         </View>
 

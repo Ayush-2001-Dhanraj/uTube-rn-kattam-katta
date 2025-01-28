@@ -7,15 +7,10 @@ interface HeadingInterface {
   scores: ScoreInterface;
   round: number;
   currentMode: keyof typeof MODE;
-  toggleModel: () => void;
+  toggleModel?: () => void;
 }
 
-const Heading = ({
-  scores,
-  currentMode,
-  toggleModel,
-  round,
-}: HeadingInterface) => {
+const Heading = ({scores, currentMode, round}: HeadingInterface) => {
   return (
     <View style={styles.headingContainer}>
       <View style={styles.headingBox}>
@@ -24,7 +19,7 @@ const Heading = ({
           {currentMode === MODE.MULTI && scores.cross}
         </Text>
       </View>
-      <TouchableOpacity style={styles.headingBox} onPress={toggleModel}>
+      <TouchableOpacity style={styles.headingBox} onPress={() => {}}>
         <Text style={styles.heading}>Kattam Katta</Text>
         <Text style={styles.headingTxt}>{currentMode}</Text>
         {currentMode === MODE.MULTI && (
