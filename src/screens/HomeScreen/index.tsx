@@ -1,35 +1,105 @@
-import {Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import Button from '../../components/Button';
+import {MODE, ModeToDescription} from '../../constants';
+
+const artworkLocations = [
+  require('../../assets/images/cross.png'),
+  require('../../assets/images/circle.png'),
+];
+
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const HomeScreen = () => {
+  const [selectedMode, setSelectedMode] = useState<MODE>();
+
+  const [artworks, setArtworks] = useState<any[]>([]);
+
+  const handlePressStart = () => {
+    console.log('Start Pressed');
+  };
+
+  const handleChangeSelectedMode = (newMode: MODE) => {
+    setSelectedMode(newMode);
+  };
+
+  useEffect(() => {
+    const tempArtworks = [];
+    for (let index = 0; index < 50; index++) {
+      const randomTop = Math.random() * screenHeight;
+      const randomLeft = Math.random() * (screenWidth + 200);
+
+      tempArtworks.push(
+        <Image
+          source={
+            artworkLocations[
+              Math.floor(Math.random() * artworkLocations.length)
+            ]
+          }
+          style={[styles.artwork, {top: randomTop, left: randomLeft}]}
+        />,
+      );
+    }
+    setArtworks(tempArtworks);
+  }, []);
+
+  const modes = [
+    {key: MODE.SINGLES, label: 'Single', style: styles.single},
+    {key: MODE.MULTI, label: 'Multi', style: styles.multi},
+    {key: MODE.AI_BOT, label: 'AI Bot', style: styles.ai},
+    {key: MODE.BOT_MID, label: 'Medium Bot', style: styles.mid},
+    {key: MODE.BOT_EASY, label: 'Easy Bot', style: styles.easy},
+  ];
+
   return (
-    <View style={styles.container}>
-      <View style={styles.mainContainer}>
-        <View
-          style={{
-            position: 'absolute',
-            zIndex: 1000,
-            top: -25,
-            marginHorizontal: 'auto',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-          }}>
-          <Button text="Mode Selection" />
+    <>
+      <View style={styles.container}>
+        <View style={styles.mainContainer}>
+          {/* Mode Selection Header */}
+          <View style={styles.modeSelectionContainer}>
+            <Button disabled text="Mode Selection" />
+          </View>
+
+          {/* Mode Buttons */}
+          <View style={styles.modeBtnContainer}>
+            {modes.map(mode => (
+              <TouchableOpacity
+                key={mode.key}
+                style={[
+                  styles.modeCard,
+                  mode.style,
+                  selectedMode === mode.key && styles.selectedMode,
+                ]}
+                onPress={() => handleChangeSelectedMode(mode.key)}>
+                <Text style={styles.modeTxt}>{mode.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Descriptor Section */}
+          <View style={styles.descriptorContainer}>
+            <Text style={styles.descriptor}>
+              {!selectedMode
+                ? 'Select your mode of Choice'
+                : ModeToDescription[selectedMode]}
+            </Text>
+          </View>
+
+          {/* Start Button */}
+          <Button
+            btnStyles={styles.startBtn}
+            onPress={handlePressStart}
+            text="Start"
+          />
         </View>
-        <Button
-          btnStyles={{
-            position: 'absolute',
-            zIndex: 1000,
-            bottom: -20,
-            right: -20,
-          }}
-          text="Start"
-        />
+
+        {/* Artwork Section */}
       </View>
-    </View>
+      {artworks.map((artwork, index) =>
+        React.cloneElement(artwork, {key: `artwork-${index}`}),
+      )}
+    </>
   );
 };
 

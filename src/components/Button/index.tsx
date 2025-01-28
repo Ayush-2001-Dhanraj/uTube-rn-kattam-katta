@@ -8,6 +8,8 @@ type ButtonProps = {
   borderColor?: string;
   btnStyles?: any;
   btnTextStyles?: any;
+  disabled?: boolean;
+  onPress?: () => void;
 };
 
 const Button = ({
@@ -16,12 +18,16 @@ const Button = ({
   borderColor,
   btnStyles,
   btnTextStyles,
+  disabled,
+  onPress,
 }: ButtonProps) => {
   const handlePress = () => {
-    console.log('Pressed');
+    onPress?.();
   };
+
   return (
     <Pressable
+      disabled={disabled}
       onPress={handlePress}
       style={[styles.btn, fullWidth && styles.fullWidthBtn, btnStyles]}>
       <Text style={[styles.btnText, btnTextStyles]}>{text}</Text>

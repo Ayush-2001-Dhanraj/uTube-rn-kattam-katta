@@ -7,7 +7,7 @@ export enum MODE {
 }
 
 export enum ModeDescription {
-    SINGLES = "One Round at a time",
+    SINGLES = "One round at a time",
     MULTI = "Back to back to back!",
     BOT_EASY = "Deer in headlights!",
     BOT_MID = "Giving introvert!",
