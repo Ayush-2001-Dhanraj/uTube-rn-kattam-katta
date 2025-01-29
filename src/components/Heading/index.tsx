@@ -24,7 +24,7 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
       <View style={styles.headingBox}>
         <Image source={CIRCLE_LIGHT_IMG} style={styles.crisCross} />
         <Text style={styles.headingTxt}>
-          {currentMode === MODE.MULTI && scores.cross}
+          {currentMode === MODE.MULTI && scores.circle}
         </Text>
       </View>
       <TouchableOpacity style={styles.headingBox} disabled onPress={() => {}}>
@@ -60,7 +60,7 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
       <View style={styles.headingBox}>
         <Image source={CROSS_LIGHT_IMG} style={styles.crisCross} />
         <Text style={styles.headingTxt}>
-          {currentMode === MODE.MULTI && scores.circle}
+          {currentMode === MODE.MULTI && scores.cross}
         </Text>
       </View>
     </View>
