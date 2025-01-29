@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.secondary,
   },
   artwork: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     position: 'absolute',
     zIndex: -1,
     top: 0,
