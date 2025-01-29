@@ -4,7 +4,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
 import Heading from '../../components/Heading';
 import Board from '../../components/Board';
-import WinnerText from '../../components/WinnerText';
 import ActionSection from '../../components/ActionSection';
 import {
   BoardElement,
@@ -367,9 +366,8 @@ const GameScreen = ({route}: GameScreenProps) => {
         winningCombination={winningCombination}
         disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
         currentMode={currentMode}
+        scores={scores}
       />
-
-      <WinnerText winner={winner} scores={scores} currentMode={currentMode} />
 
       <ActionSection
         winner={winner}

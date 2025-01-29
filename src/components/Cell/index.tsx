@@ -8,9 +8,16 @@ type CellProps = {
   handlePress: () => void;
   disabled: boolean;
   fillColor: string;
+  iconColor: string;
 };
 
-const Cell = ({name, handlePress, disabled, fillColor}: CellProps) => {
+const Cell = ({
+  name,
+  handlePress,
+  disabled,
+  fillColor,
+  iconColor,
+}: CellProps) => {
   const options = ['circle', 'cross'];
   return (
     <TouchableOpacity
@@ -18,7 +25,7 @@ const Cell = ({name, handlePress, disabled, fillColor}: CellProps) => {
       disabled={options.includes(name) || disabled}
       onPress={handlePress}>
       {options.includes(name) && (
-        <EntoTcon size={50} color="#000" name={name} />
+        <EntoTcon size={40} color={iconColor} name={name} />
       )}
     </TouchableOpacity>
   );

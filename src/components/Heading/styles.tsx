@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   crisCross: {
     height: 50,
     width: 50,
+    transform: [{scale: 2}],
   },
   modeLogoContainer: {
     flexDirection: 'row',

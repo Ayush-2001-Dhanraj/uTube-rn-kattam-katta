@@ -20,7 +20,10 @@ const ActionSection = ({
     <View style={styles.actionContainer}>
       {(currentMode === MODE.SINGLES || currentMode.includes('BOT')) && (
         <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
-          <Text style={styles.actionTxt}>{winner ? 'Re-match' : 'Reset'}</Text>
+          <Text
+            style={[styles.actionTxt, winner === 'Draw' && styles.drawBtnTxt]}>
+            {winner ? 'Re-match' : 'Reset'}
+          </Text>
         </TouchableOpacity>
       )}
 

@@ -1,4 +1,4 @@
-import {StyleSheet, Text} from 'react-native';
+import {Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import {MODE, ScoreInterface} from '../../constants';

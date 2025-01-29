@@ -77,7 +77,7 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
             ]}
           />
         </View>
-        <Text style={styles.headingTxt}>{currentMode}</Text>
+        {/* <Text style={styles.headingTxt}>{currentMode}</Text> */}
         {currentMode === MODE.MULTI && (
           <Text style={styles.headingTxt}>Round: {round}</Text>
         )}

@@ -1,12 +1,14 @@
 import {StyleSheet} from 'react-native';
+import COLORS from '../../colors';
 
 const styles = StyleSheet.create({
   boardBox: {
-    gap: 8,
+    gap: 4,
   },
   infoTxt: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '300',
+    color: COLORS.primary,
   },
 });
 
