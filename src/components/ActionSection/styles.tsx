@@ -2,6 +2,11 @@ import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
 
 const styles = StyleSheet.create({
+  actionContainer: {
+    gap: 10,
+    marginBottom: 20,
+    position: 'relative',
+  },
   actionBtn: {
     backgroundColor: COLORS.primary,
     padding: 8,
@@ -9,10 +14,6 @@ const styles = StyleSheet.create({
     opacity: 1,
     borderWidth: 4,
     borderColor: COLORS.secondary,
-  },
-  actionContainer: {
-    gap: 10,
-    marginBottom: 20,
   },
   altTxt: {
     color: COLORS.primary,
@@ -37,6 +38,14 @@ const styles = StyleSheet.create({
   },
   drawBtnTxt: {
     color: COLORS.secondary,
+  },
+  movesArtwork: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    flexDirection: 'row',
+    gap: 0,
   },
 });
 

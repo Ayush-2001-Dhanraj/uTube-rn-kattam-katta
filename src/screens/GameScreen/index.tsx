@@ -7,9 +7,12 @@ import Board from '../../components/Board';
 import ActionSection from '../../components/ActionSection';
 import {
   BoardElement,
+  CIRCLE_LIGHT_IMG,
+  CROSS_LIGHT_IMG,
   HARD_PROBABILITY,
   MID_PROBABILITY,
   MODE,
+  MODE_LOGOS,
   ScoreInterface,
 } from '../../constants';
 import styles from './styles';
@@ -31,6 +34,8 @@ const GameScreen = ({route}: GameScreenProps) => {
   const [round, setRound] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [artworks, setArtworks] = useState<any[]>([]);
+
   const handleCellPress = (index: number) => {
     setIsLoading(true);
     setBoardElements(preV => {
@@ -38,6 +43,19 @@ const GameScreen = ({route}: GameScreenProps) => {
       newBoard[index] = isCross ? 'cross' : 'circle';
       return newBoard;
     });
+    if ([MODE.SINGLES, MODE.MULTI].includes(currentMode)) {
+      setArtworks(preV => [
+        ...preV,
+        isCross ? CROSS_LIGHT_IMG : CIRCLE_LIGHT_IMG,
+      ]);
+    } else {
+      const modeInfo = MODE_LOGOS.find(x => x.key === currentMode);
+      setArtworks(preV => [
+        ...preV,
+        isCross ? modeInfo?.left : modeInfo?.right,
+      ]);
+    }
+
     // For next  player
     setIsCross(preV => !preV);
   };
@@ -138,6 +156,7 @@ const GameScreen = ({route}: GameScreenProps) => {
     setScores({cross: 0, circle: 0});
     setWinningCombination([]);
     setRound(1);
+    setArtworks([]);
   };
 
   const handleNext = () => {
@@ -374,6 +393,7 @@ const GameScreen = ({route}: GameScreenProps) => {
         currentMode={currentMode}
         handleReset={handleReset}
         handleNext={handleNext}
+        artworks={artworks}
       />
     </SafeAreaView>
   );

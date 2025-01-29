@@ -1,7 +1,13 @@
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import React from 'react';
-import {MODE, ScoreInterface} from '../../constants';
+import {
+  CIRCLE_LIGHT_IMG,
+  CROSS_LIGHT_IMG,
+  MODE,
+  MODE_LOGOS,
+  ScoreInterface,
+} from '../../constants';
 import styles from './styles';
 
 interface HeadingInterface {
@@ -11,43 +17,12 @@ interface HeadingInterface {
   toggleModel?: () => void;
 }
 
-const modeLogos = [
-  {
-    key: MODE.SINGLES,
-    left: require('../../assets/images/single_usser4.png'),
-    right: require('../../assets/images/single_usser4.png'),
-  },
-  {
-    key: MODE.MULTI,
-    left: require('../../assets/images/multi_user.png'),
-    right: require('../../assets/images/multi_user.png'),
-  },
-  {
-    key: MODE.AI_BOT,
-    left: require('../../assets/images/single_usser4.png'),
-    right: require('../../assets/images/ai_bot.png'),
-  },
-  {
-    key: MODE.BOT_MID,
-    left: require('../../assets/images/single_usser4.png'),
-    right: require('../../assets/images/mid_bot.png'),
-  },
-  {
-    key: MODE.BOT_EASY,
-    left: require('../../assets/images/single_usser4.png'),
-    right: require('../../assets/images/easy_bot.png'),
-  },
-];
-
 const Heading = ({scores, currentMode, round}: HeadingInterface) => {
-  const modeData = modeLogos.find(x => x.key === currentMode);
+  const modeData = MODE_LOGOS.find(x => x.key === currentMode);
   return (
     <View style={styles.headingContainer}>
       <View style={styles.headingBox}>
-        <Image
-          source={require('../../assets/images/circle.png')}
-          style={styles.crisCross}
-        />
+        <Image source={CIRCLE_LIGHT_IMG} style={styles.crisCross} />
         <Text style={styles.headingTxt}>
           {currentMode === MODE.MULTI && scores.cross}
         </Text>
@@ -83,10 +58,7 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
         )}
       </TouchableOpacity>
       <View style={styles.headingBox}>
-        <Image
-          source={require('../../assets/images/cross.png')}
-          style={styles.crisCross}
-        />
+        <Image source={CROSS_LIGHT_IMG} style={styles.crisCross} />
         <Text style={styles.headingTxt}>
           {currentMode === MODE.MULTI && scores.circle}
         </Text>

@@ -2,14 +2,16 @@ import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import Button from '../../components/Button';
-import {MODE, ModeToDescription} from '../../constants';
+import {
+  CIRCLE_LIGHT_IMG,
+  CROSS_LIGHT_IMG,
+  MODE,
+  ModeToDescription,
+} from '../../constants';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
 
-const artworkLocations = [
-  require('../../assets/images/cross.png'),
-  require('../../assets/images/circle.png'),
-];
+const artworkLocations = [CROSS_LIGHT_IMG, CIRCLE_LIGHT_IMG];
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 

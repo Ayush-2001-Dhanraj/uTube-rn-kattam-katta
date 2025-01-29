@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Image, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {MODE} from '../../constants';
 import styles from './styles';
@@ -8,6 +8,7 @@ interface ActionSectionInterface {
   currentMode: keyof typeof MODE;
   handleReset: () => void;
   handleNext: () => void;
+  artworks: any[];
 }
 
 const ActionSection = ({
@@ -15,9 +16,25 @@ const ActionSection = ({
   currentMode,
   handleReset,
   handleNext,
+  artworks,
 }: ActionSectionInterface) => {
   return (
     <View style={styles.actionContainer}>
+      <View style={styles.movesArtwork}>
+        {artworks.map((artwork, index) => {
+          return (
+            <Image
+              key={`actionSection_artwork_${index}`}
+              source={artwork}
+              style={{
+                height: 50,
+                width: 50,
+                transform: [{scale: Math.random() * 1.5 + 1}],
+              }}
+            />
+          );
+        })}
+      </View>
       {(currentMode === MODE.SINGLES || currentMode.includes('BOT')) && (
         <TouchableOpacity onPress={handleReset} style={styles.actionBtn}>
           <Text

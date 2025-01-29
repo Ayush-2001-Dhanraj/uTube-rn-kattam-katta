@@ -31,3 +31,34 @@ export type BoardElement = 'cross' | 'circle' | 'empty';
 
 export const MID_PROBABILITY = 0.6;
 export const HARD_PROBABILITY = 0.9;
+
+export const CIRCLE_LIGHT_IMG = require("./assets/images/circle.png")
+export const CROSS_LIGHT_IMG = require("./assets/images/cross.png")
+
+export const MODE_LOGOS = [
+    {
+        key: MODE.SINGLES,
+        left: require('./assets/images/single_usser4.png'),
+        right: require('./assets/images/single_usser4.png'),
+    },
+    {
+        key: MODE.MULTI,
+        left: require('./assets/images/multi_user.png'),
+        right: require('./assets/images/multi_user.png'),
+    },
+    {
+        key: MODE.AI_BOT,
+        left: require('./assets/images/single_usser4.png'),
+        right: require('./assets/images/ai_bot.png'),
+    },
+    {
+        key: MODE.BOT_MID,
+        left: require('./assets/images/single_usser4.png'),
+        right: require('./assets/images/mid_bot.png'),
+    },
+    {
+        key: MODE.BOT_EASY,
+        left: require('./assets/images/single_usser4.png'),
+        right: require('./assets/images/easy_bot.png'),
+    },
+];
