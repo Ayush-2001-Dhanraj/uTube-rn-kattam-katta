@@ -15,7 +15,6 @@ type ButtonProps = {
 const Button = ({
   text,
   fullWidth,
-  borderColor,
   btnStyles,
   btnTextStyles,
   disabled,

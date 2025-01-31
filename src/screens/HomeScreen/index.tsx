@@ -61,43 +61,53 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.mainContainer}>
-          {/* Mode Selection Header */}
-          <View style={styles.modeSelectionContainer}>
-            <Button disabled text="Mode Selection" />
-          </View>
+        <View style={styles.wrapperContainer}>
+          <View style={styles.mainContainer}>
+            {/* Mode Selection Header */}
+            <View style={styles.modeSelectionContainer}>
+              <Button disabled text="Mode Selection" />
+            </View>
 
-          {/* Mode Buttons */}
-          <View style={styles.modeBtnContainer}>
-            {modes.map(mode => (
-              <TouchableOpacity
-                key={mode.key}
-                style={[
-                  styles.modeCard,
-                  mode.style,
-                  selectedMode === mode.key && styles.selectedMode,
-                ]}
-                onPress={() => handleChangeSelectedMode(mode.key)}>
-                <Text style={styles.modeTxt}>{mode.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+            {/* Mode Buttons */}
+            <View style={styles.modeBtnContainer}>
+              {modes.map(mode => (
+                <TouchableOpacity
+                  key={mode.key}
+                  style={[
+                    styles.modeCard,
+                    mode.style,
+                    selectedMode === mode.key && styles.selectedMode,
+                  ]}
+                  onPress={() => handleChangeSelectedMode(mode.key)}>
+                  <Text style={styles.modeTxt}>{mode.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
 
-          {/* Descriptor Section */}
-          <View style={styles.descriptorContainer}>
-            <Text style={styles.descriptor}>
-              {!selectedMode
-                ? 'Select a mode'
-                : ModeToDescription[selectedMode]}
-            </Text>
-          </View>
+            {/* Descriptor Section */}
+            <View style={styles.descriptorContainer}>
+              <Text style={styles.descriptor}>
+                {!selectedMode
+                  ? 'Select a mode'
+                  : ModeToDescription[selectedMode]}
+              </Text>
+            </View>
 
-          {/* Start Button */}
-          <Button
-            btnStyles={styles.startBtn}
-            onPress={handlePressStart}
-            text="Start"
-            disabled={!selectedMode}
+            {/* Start Button */}
+            <Button
+              btnStyles={styles.startBtn}
+              onPress={handlePressStart}
+              text="Start"
+              disabled={!selectedMode}
+            />
+          </View>
+          <Image
+            source={require('../../assets/images/claws_sample_3.png')}
+            style={[styles.clawImage, styles.topClaw]}
+          />
+          <Image
+            source={require('../../assets/images/claws_sample_3.png')}
+            style={[styles.clawImage, styles.bottomClaw]}
           />
         </View>
 

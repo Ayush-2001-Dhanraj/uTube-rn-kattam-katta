@@ -35,26 +35,11 @@ const SplashScreen = ({navigation}: SplashScreenProps) => {
       <AppName />
       <Image
         source={require('../../assets/images/claws_sample_1.png')}
-        style={{
-          height: 250,
-          width: 250,
-          position: 'absolute',
-          top: -65,
-          left: -65,
-          zIndex: -2,
-        }}
+        style={[styles.clawImage, styles.topClaw]}
       />
       <Image
         source={require('../../assets/images/claws_sample_1.png')}
-        style={{
-          height: 250,
-          width: 250,
-          position: 'absolute',
-          bottom: -65,
-          right: -65,
-          zIndex: -2,
-          transform: [{rotate: '180deg'}],
-        }}
+        style={[styles.clawImage, styles.bottomClaw]}
       />
     </>
   );

@@ -10,6 +10,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  clawImage: {
+    height: 250,
+    width: 250,
+    position: 'absolute',
+    zIndex: -2,
+  },
+  topClaw: {top: -65, left: -65},
+  bottomClaw: {
+    bottom: -65,
+    right: -65,
+    transform: [{rotate: '180deg'}],
+  },
 });
 
 export default styles;

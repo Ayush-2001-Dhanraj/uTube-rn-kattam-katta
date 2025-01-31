@@ -1,4 +1,4 @@
-import {SafeAreaView} from 'react-native';
+import {Image, SafeAreaView, View} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
@@ -374,28 +374,30 @@ const GameScreen = ({route}: GameScreenProps) => {
   }, [handleBotTurn]);
 
   return (
-    <SafeAreaView style={styles.app}>
-      <Heading scores={scores} currentMode={currentMode} round={round} />
+    <>
+      <SafeAreaView style={styles.app}>
+        <Heading scores={scores} currentMode={currentMode} round={round} />
 
-      <Board
-        boardElements={boardElements}
-        isCross={isCross}
-        winner={winner}
-        onPressCell={handleCellPress}
-        winningCombination={winningCombination}
-        disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
-        currentMode={currentMode}
-        scores={scores}
-      />
+        <Board
+          boardElements={boardElements}
+          isCross={isCross}
+          winner={winner}
+          onPressCell={handleCellPress}
+          winningCombination={winningCombination}
+          disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
+          currentMode={currentMode}
+          scores={scores}
+        />
 
-      <ActionSection
-        winner={winner}
-        currentMode={currentMode}
-        handleReset={handleReset}
-        handleNext={handleNext}
-        artworks={artworks}
-      />
-    </SafeAreaView>
+        <ActionSection
+          winner={winner}
+          currentMode={currentMode}
+          handleReset={handleReset}
+          handleNext={handleNext}
+          artworks={artworks}
+        />
+      </SafeAreaView>
+    </>
   );
 };
 

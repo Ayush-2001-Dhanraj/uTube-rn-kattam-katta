@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  wrapperContainer: {
+    position: 'relative',
+  },
   mainContainer: {
     backgroundColor: COLORS.primary,
     width: width > 600 ? '50%' : '80%',
@@ -23,6 +26,7 @@ const styles = StyleSheet.create({
     },
     position: 'relative',
     padding: 16,
+    zIndex: 1,
   },
   modeSelectionContainer: {
     position: 'absolute',
@@ -50,7 +54,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.main,
     width: '100%',
     marginBottom: 30,
-    paddingVertical: 10,
+    paddingVertical: 6,
     borderWidth: 2,
     borderRadius: 50,
     fontWeight: 'semibold',
@@ -110,6 +114,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: -1,
     top: 0,
+  },
+  clawImage: {
+    height: 250,
+    width: 250,
+    position: 'absolute',
+    zIndex: -2,
+  },
+  topClaw: {
+    top: -65,
+    right: -65,
+    transform: [{rotate: '180deg'}],
+  },
+  bottomClaw: {
+    bottom: -65,
+    left: -65,
   },
 });
 

@@ -1,5 +1,4 @@
 import {Text, View, TouchableOpacity, Image} from 'react-native';
-import EntoTcon from 'react-native-vector-icons/Entypo';
 import React from 'react';
 import {
   CIRCLE_LIGHT_IMG,

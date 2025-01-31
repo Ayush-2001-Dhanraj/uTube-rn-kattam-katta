@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
 import React from 'react';
 import Cell from '../Cell';
 import EntoTcon from 'react-native-vector-icons/Entypo';
@@ -45,6 +45,7 @@ const Board = ({
           />
         )}
       </View>
+
       <View style={{alignItems: 'center', padding: 8}}>
         {winner ? (
           <Text style={styles.infoTxt}>
@@ -60,6 +61,7 @@ const Board = ({
           </Text>
         )}
       </View>
+
       <View
         style={{
           backgroundColor: '#000',
@@ -67,6 +69,7 @@ const Board = ({
           height: 300,
           width: 300,
           elevation: 8,
+          position: 'relative',
         }}>
         <FlatList
           numColumns={3}
@@ -97,7 +100,16 @@ const Board = ({
             );
           }}
         />
+        <Image
+          source={require('../../assets/images/claws_sample_1.png')}
+          style={[styles.clawImage, styles.topClaw]}
+        />
+        <Image
+          source={require('../../assets/images/claws_sample_3.png')}
+          style={[styles.clawImage, styles.bottomClaw]}
+        />
       </View>
+
       <WinnerText winner={winner} scores={scores} currentMode={currentMode} />
     </View>
   );
