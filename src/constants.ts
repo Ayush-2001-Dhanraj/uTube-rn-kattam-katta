@@ -34,31 +34,33 @@ export const HARD_PROBABILITY = 0.9;
 
 export const CIRCLE_LIGHT_IMG = require("./assets/images/circle.png")
 export const CROSS_LIGHT_IMG = require("./assets/images/cross.png")
+export const CIRCLE_WHITE_IMG = require("./assets/images/circle_white.png")
+export const CROSS_WHITE_IMG = require("./assets/images/cross_white.png")
 
 export const MODE_LOGOS = [
     {
         key: MODE.SINGLES,
-        left: require('./assets/images/single_usser4.png'),
-        right: require('./assets/images/single_usser4.png'),
+        left: require('./assets/images/single_user_white.png'),
+        right: require('./assets/images/single_user_white.png'),
     },
     {
         key: MODE.MULTI,
-        left: require('./assets/images/multi_user.png'),
-        right: require('./assets/images/multi_user.png'),
+        left: require('./assets/images/multi_user_white.png'),
+        right: require('./assets/images/multi_user_white.png'),
     },
     {
         key: MODE.AI_BOT,
-        left: require('./assets/images/single_usser4.png'),
-        right: require('./assets/images/ai_bot.png'),
+        left: require('./assets/images/single_user_white.png'),
+        right: require('./assets/images/ai_bot_white.png'),
     },
     {
         key: MODE.BOT_MID,
-        left: require('./assets/images/single_usser4.png'),
-        right: require('./assets/images/mid_bot.png'),
+        left: require('./assets/images/single_user_white.png'),
+        right: require('./assets/images/mid_bot_white.png'),
     },
     {
         key: MODE.BOT_EASY,
-        left: require('./assets/images/single_usser4.png'),
-        right: require('./assets/images/easy_bot.png'),
+        left: require('./assets/images/single_user_white.png'),
+        right: require('./assets/images/easy_bot_white.png'),
     },
 ];

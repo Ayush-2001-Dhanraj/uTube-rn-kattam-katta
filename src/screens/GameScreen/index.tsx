@@ -7,8 +7,8 @@ import Board from '../../components/Board';
 import ActionSection from '../../components/ActionSection';
 import {
   BoardElement,
-  CIRCLE_LIGHT_IMG,
-  CROSS_LIGHT_IMG,
+  CIRCLE_WHITE_IMG,
+  CROSS_WHITE_IMG,
   HARD_PROBABILITY,
   MID_PROBABILITY,
   MODE,
@@ -47,7 +47,7 @@ const GameScreen = ({route}: GameScreenProps) => {
     if ([MODE.SINGLES, MODE.MULTI].includes(currentMode)) {
       setArtworks(preV => [
         ...preV,
-        isCross ? CROSS_LIGHT_IMG : CIRCLE_LIGHT_IMG,
+        isCross ? CROSS_WHITE_IMG : CIRCLE_WHITE_IMG,
       ]);
     } else {
       const modeInfo = MODE_LOGOS.find(x => x.key === currentMode);
