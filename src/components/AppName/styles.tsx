@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     fontWeight: '600',
+    marginBottom: 20,
   },
   largeName: {
     fontSize: 24,

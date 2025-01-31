@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   descriptor: {
     color: COLORS.paper,
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
   },
   descriptorContainer: {

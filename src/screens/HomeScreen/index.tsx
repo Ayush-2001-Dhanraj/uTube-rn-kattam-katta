@@ -87,7 +87,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           <View style={styles.descriptorContainer}>
             <Text style={styles.descriptor}>
               {!selectedMode
-                ? 'Select your mode of Choice'
+                ? 'Select a mode'
                 : ModeToDescription[selectedMode]}
             </Text>
           </View>
