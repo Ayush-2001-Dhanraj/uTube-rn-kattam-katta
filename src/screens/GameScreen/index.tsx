@@ -1,4 +1,4 @@
-import {Image, SafeAreaView, View} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
