@@ -31,6 +31,14 @@ const Board = ({
   currentMode,
   scores,
 }: BoardInterface) => {
+  const generateRandomPosition = () => {
+    const top = Math.random() * 150 - 75; // Random between -50 and 50
+    const left = Math.random() * 100 - 50; // Random between -50 and 50
+    const rotation = Math.random() * 30 - 15; // Random rotation between -15 and 15 degrees
+    const scale = Math.random() * 0.5 + 0.5; // Random scale between 0.5 and 1.0
+    return {top, left, rotation, scale};
+  };
+
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <View style={{alignItems: 'center'}}>
@@ -117,6 +125,28 @@ const Board = ({
       </View>
 
       <WinnerText winner={winner} scores={scores} currentMode={currentMode} />
+
+      {winner === 'Draw' && (
+        <>
+          {[...Array(10)].map((_, index) => {
+            const {top, left, rotation, scale} = generateRandomPosition();
+            return (
+              <Image
+                key={`claw-${index}`}
+                source={require('../../assets/images/claws_sample_4.png')}
+                style={[
+                  styles.clawImage,
+                  {
+                    top: `${top}%`,
+                    left: `${left}%`,
+                    transform: [{rotate: `${rotation}deg`}, {scale}],
+                  },
+                ]}
+              />
+            );
+          })}
+        </>
+      )}
     </View>
   );
 };
