@@ -16,6 +16,7 @@ import {
   ScoreInterface,
 } from '../../constants';
 import styles from './styles';
+import SoundService from '../../SoundService';
 
 type GameScreenProps = NativeStackScreenProps<RootStackList, 'Game'>;
 
@@ -151,6 +152,10 @@ const GameScreen = ({route}: GameScreenProps) => {
   };
 
   const handleReset = () => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
     setScores({cross: 0, circle: 0});
@@ -160,6 +165,10 @@ const GameScreen = ({route}: GameScreenProps) => {
   };
 
   const handleNext = () => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
     setWinningCombination([]);
@@ -372,6 +381,30 @@ const GameScreen = ({route}: GameScreenProps) => {
   useEffect(() => {
     handleBotTurn();
   }, [handleBotTurn]);
+
+  useEffect(() => {
+    if (winner) {
+      if (winner === 'Draw') {
+        if (SoundService.sounds['draw']) {
+          SoundService.sounds['draw'].setVolume(1); // Set volume (0.0 to 1.0)
+          SoundService.playSound('draw');
+        }
+      } else if (
+        [MODE.AI_BOT, MODE.BOT_EASY, MODE.BOT_MID].includes(currentMode) &&
+        winner === 'circle'
+      ) {
+        if (SoundService.sounds['game_over']) {
+          SoundService.sounds['game_over'].setVolume(1); // Set volume (0.0 to 1.0)
+          SoundService.playSound('game_over');
+        }
+      } else {
+        if (SoundService.sounds['win']) {
+          SoundService.sounds['win'].setVolume(1); // Set volume (0.0 to 1.0)
+          SoundService.playSound('win');
+        }
+      }
+    }
+  }, [winner]);
 
   return (
     <>

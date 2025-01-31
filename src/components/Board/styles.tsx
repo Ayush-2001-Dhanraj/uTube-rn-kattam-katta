@@ -7,9 +7,9 @@ const styles = StyleSheet.create({
   },
   infoTxt: {
     fontSize: 20,
-    fontWeight: '300',
     color: COLORS.primary,
     zIndex: 1,
+    fontWeight: 'bold',
   },
   clawImage: {
     height: 250,

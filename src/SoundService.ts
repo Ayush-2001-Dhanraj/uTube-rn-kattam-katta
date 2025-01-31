@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import Sound from 'react-native-sound';
 
-type SoundKeys = 'app' | 'tap' | 'game_over' | 'splash' | 'win';
+type SoundKeys = 'app' | 'tap' | 'game_over' | 'splash' | 'win' | 'draw';
 
 class SoundService {
   static sounds: Partial<Record<SoundKeys, Sound>> = {};
@@ -13,6 +13,7 @@ class SoundService {
       game_over: require('./assets/audio/robotic_game_over.mp3'),
       splash: require('./assets/audio/splash.mp3'),
       win: require('./assets/audio/win.mp3'),
+      draw: require('./assets/audio/draw.mp3'),
     };
 
     Sound.setCategory('Playback'); // Ensure proper playback

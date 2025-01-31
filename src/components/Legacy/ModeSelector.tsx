@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import {MODE, ModeToDescription} from '../../constants';
+import SoundService from '../../SoundService';
 
 interface ModelSectorInterface {
   modalVisible: boolean;
@@ -21,8 +22,20 @@ const ModeSelector = ({
   );
 
   const handleOnPressStart = () => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     onChangeMode(selectedMode);
     toggleModel();
+  };
+
+  const handleModeChange = (newMode: keyof typeof MODE) => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
+    setSelectedMode(newMode);
   };
 
   return (
@@ -42,7 +55,7 @@ const ModeSelector = ({
           </View>
           {Object.keys(MODE).map(key => (
             <TouchableOpacity
-              onPress={() => setSelectedMode(key as keyof typeof MODE)}
+              onPress={() => handleModeChange(key as keyof typeof MODE)}
               style={[
                 styles.modeBtn,
                 selectedMode === MODE[key as keyof typeof MODE] &&

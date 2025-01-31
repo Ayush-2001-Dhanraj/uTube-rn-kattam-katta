@@ -10,6 +10,7 @@ import {
 } from '../../constants';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
+import SoundService from '../../SoundService';
 
 const artworkLocations = [CROSS_LIGHT_IMG, CIRCLE_LIGHT_IMG];
 
@@ -23,10 +24,18 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [artworks, setArtworks] = useState<any[]>([]);
 
   const handlePressStart = () => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     if (selectedMode) navigation.navigate('Game', {currentMode: selectedMode});
   };
 
   const handleChangeSelectedMode = (newMode: MODE) => {
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     setSelectedMode(newMode);
   };
 

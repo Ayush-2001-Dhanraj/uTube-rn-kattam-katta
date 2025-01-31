@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Image, Vibration} from 'react-native';
 import React from 'react';
 import Cell from '../Cell';
 import EntoTcon from 'react-native-vector-icons/Entypo';
@@ -8,6 +8,7 @@ import styles from './styles';
 import {BoardElement, MODE, ScoreInterface} from '../../constants';
 import COLORS from '../../colors';
 import WinnerText from '../WinnerText';
+import SoundService from '../../SoundService';
 
 interface BoardInterface {
   boardElements: BoardElement[];
@@ -90,6 +91,11 @@ const Board = ({
                 name={item}
                 handlePress={() => {
                   onPressCell(index);
+                  Vibration.vibrate(100);
+                  if (SoundService.sounds['tap']) {
+                    SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+                    SoundService.playSound('tap');
+                  }
                 }}
                 disabled={!!winner || disabled}
                 fillColor={fillColor}
