@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     backgroundColor: COLORS.primary,
-    width: width > 600 ? 500 : 350,
+    width: width > 600 ? 500 : width - 80,
     height: 500,
     borderRadius: 16,
     borderWidth: 4,
