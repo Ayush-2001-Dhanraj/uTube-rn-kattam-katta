@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   actionContainer: {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.main,
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: normalize(16),
   },
   smallBtn: {
     flex: 0,

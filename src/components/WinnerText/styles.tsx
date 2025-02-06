@@ -1,10 +1,11 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   winnerTxt: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: normalize(20),
     color: COLORS.primary,
     marginTop: 10,
   },

@@ -70,15 +70,7 @@ const Board = ({
         )}
       </View>
 
-      <View
-        style={{
-          backgroundColor: '#000',
-          padding: 4,
-          height: 300,
-          width: 300,
-          elevation: 8,
-          position: 'relative',
-        }}>
+      <View style={styles.boardWrapper}>
         <FlatList
           numColumns={3}
           data={boardElements}

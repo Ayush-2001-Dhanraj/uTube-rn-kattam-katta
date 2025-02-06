@@ -2,6 +2,7 @@ import {TouchableOpacity} from 'react-native';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import React from 'react';
 import styles from './styles';
+import normalize from '../../normalize';
 
 type CellProps = {
   name: string;
@@ -25,7 +26,7 @@ const Cell = ({
       disabled={options.includes(name) || disabled}
       onPress={handlePress}>
       {options.includes(name) && (
-        <EntoTcon size={40} color={iconColor} name={name} />
+        <EntoTcon size={normalize(40)} color={iconColor} name={name} />
       )}
     </TouchableOpacity>
   );

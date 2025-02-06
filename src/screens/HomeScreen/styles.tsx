@@ -1,5 +1,6 @@
 import {Dimensions, StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const {width} = Dimensions.get('window');
 
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
   descriptor: {
     color: COLORS.paper,
-    fontSize: 16,
+    fontSize: normalize(16),
     textAlign: 'center',
   },
   descriptorContainer: {
@@ -79,8 +80,8 @@ const styles = StyleSheet.create({
   },
   modeTxt: {
     color: COLORS.main,
-    fontWeight: 'semibold',
-    fontSize: 20,
+    fontWeight: 'bold',
+    fontSize: normalize(16),
     textAlign: 'center',
   },
   single: {
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.secondary,
   },
   artwork: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     position: 'absolute',
     zIndex: -1,
     top: 0,

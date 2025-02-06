@@ -1,12 +1,21 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   boardBox: {
     gap: 4,
   },
+  boardWrapper: {
+    backgroundColor: COLORS.secondary,
+    padding: 4,
+    height: 300,
+    width: 300,
+    elevation: 8,
+    position: 'relative',
+  },
   infoTxt: {
-    fontSize: 20,
+    fontSize: normalize(20),
     color: COLORS.primary,
     zIndex: 1,
     fontWeight: 'bold',

@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   headingBox: {
@@ -8,10 +9,11 @@ const styles = StyleSheet.create({
   headingTxt: {
     textAlign: 'center',
     color: COLORS.text,
-    fontSize: 16,
+    fontSize: normalize(16),
+    zIndex: 1,
   },
   heading: {
-    fontSize: 24,
+    fontSize: normalize(20),
     fontWeight: 'bold',
     textAlign: 'center',
     paddingHorizontal: 16,

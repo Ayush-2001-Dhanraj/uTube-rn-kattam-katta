@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   btn: {
@@ -12,7 +13,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   btnText: {
-    fontSize: 24,
+    fontSize: normalize(20),
     textAlign: 'center',
     color: COLORS.primary,
   },

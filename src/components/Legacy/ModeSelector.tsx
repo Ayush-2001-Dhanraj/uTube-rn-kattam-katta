@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import {MODE, ModeToDescription} from '../../constants';
 import SoundService from '../../SoundService';
+import normalize from '../../normalize';
 
 interface ModelSectorInterface {
   modalVisible: boolean;
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   startTxt: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: normalize(20),
     textAlign: 'right',
   },
   startBtn: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 50,
   },
   modelHeading: {
-    fontSize: 20,
+    fontSize: normalize(20),
     fontWeight: 'bold',
     flex: 1,
   },
@@ -114,12 +115,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   modeName: {
-    fontSize: 18,
+    fontSize: normalize(16),
     fontWeight: 'bold',
     width: 90,
   },
   modeDescription: {
-    fontSize: 16,
+    fontSize: normalize(16),
     flex: 1,
   },
   modalContainer: {

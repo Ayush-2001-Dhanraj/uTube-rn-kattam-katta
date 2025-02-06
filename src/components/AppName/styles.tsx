@@ -1,16 +1,17 @@
 import {StyleSheet} from 'react-native';
 import COLORS from '../../colors';
+import normalize from '../../normalize';
 
 const styles = StyleSheet.create({
   appName: {
     color: COLORS.text,
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: normalize(20),
     fontWeight: '600',
     marginBottom: 20,
   },
   largeName: {
-    fontSize: 24,
+    fontSize: normalize(24),
   },
 });
 
