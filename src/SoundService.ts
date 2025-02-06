@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import Sound from 'react-native-sound';
 
-type SoundKeys = 'app' | 'tap' | 'game_over' | 'splash' | 'win' | 'draw';
+type SoundKeys = 'app' | 'tap' | 'game_over' | 'splash' | 'win' | 'draw' | 'calculate';
 
 class SoundService {
   static sounds: Partial<Record<SoundKeys, Sound>> = {};
@@ -14,6 +14,7 @@ class SoundService {
       splash: require('./assets/audio/splash.mp3'),
       win: require('./assets/audio/win.mp3'),
       draw: require('./assets/audio/draw.mp3'),
+      calculate: require('./assets/audio/calculate.mp3'),
     };
 
     Sound.setCategory('Playback'); // Ensure proper playback
@@ -37,6 +38,15 @@ class SoundService {
     const sound = this.sounds[soundKey];
     if (sound) {
       sound.stop(() => sound.play());
+    } else {
+      console.warn(`Sound ${soundKey} not found or not loaded!`);
+    }
+  }
+
+  static stopSound(soundKey: SoundKeys): void {
+    const sound = this.sounds[soundKey];
+    if (sound) {
+      sound.stop();
     } else {
       console.warn(`Sound ${soundKey} not found or not loaded!`);
     }

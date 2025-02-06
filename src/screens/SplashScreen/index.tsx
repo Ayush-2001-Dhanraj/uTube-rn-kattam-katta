@@ -16,7 +16,7 @@ const SplashScreen = ({navigation}: SplashScreenProps) => {
         SoundService.sounds['splash'].setVolume(1); // Set volume (0.0 to 1.0)
         SoundService.playSound('splash');
       }
-    }, 2500);
+    }, 1500);
 
     setTimeout(() => {
       navigation.replace('Home');

@@ -1,4 +1,4 @@
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, Vibration} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
@@ -38,6 +38,11 @@ const GameScreen = ({route}: GameScreenProps) => {
   const [artworks, setArtworks] = useState<any[]>([]);
 
   const handleCellPress = (index: number) => {
+    Vibration.vibrate(100);
+    if (SoundService.sounds['tap']) {
+      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
+      SoundService.playSound('tap');
+    }
     setIsLoading(true);
     setBoardElements(preV => {
       const newBoard = [...preV];
@@ -152,10 +157,6 @@ const GameScreen = ({route}: GameScreenProps) => {
   };
 
   const handleReset = () => {
-    if (SoundService.sounds['tap']) {
-      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
-      SoundService.playSound('tap');
-    }
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
     setScores({cross: 0, circle: 0});
@@ -165,10 +166,6 @@ const GameScreen = ({route}: GameScreenProps) => {
   };
 
   const handleNext = () => {
-    if (SoundService.sounds['tap']) {
-      SoundService.sounds['tap'].setVolume(1); // Set volume (0.0 to 1.0)
-      SoundService.playSound('tap');
-    }
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
     setWinningCombination([]);
@@ -360,9 +357,17 @@ const GameScreen = ({route}: GameScreenProps) => {
   const handleBotTurn = useCallback(() => {
     // if isCross is false then it means bot's turn
     if (!isCross && currentMode.includes('BOT') && !isLoading && !winner) {
+      if (SoundService.sounds['calculate']) {
+        SoundService.sounds['calculate'].setVolume(1); // Set volume (0.0 to 1.0)
+        SoundService.playSound('calculate');
+      }
       const botMoveTimer = setTimeout(() => {
         // Bot's move logic
         botMoveLogic();
+        if (SoundService.sounds['calculate']) {
+          SoundService.sounds['calculate'].setVolume(1); // Set volume (0.0 to 1.0)
+          SoundService.stopSound('calculate');
+        }
       }, 2000); // Simulate thinking time
 
       return () => clearTimeout(botMoveTimer); // Cleanup timer on dependency change
