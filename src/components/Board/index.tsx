@@ -114,7 +114,7 @@ const Board = ({
 
       {winner === 'Draw' && (
         <>
-          {[...Array(10)].map((_, index) => {
+          {[...Array(15)].map((_, index) => {
             const {top, left, rotation, scale} = generateRandomPosition();
             return (
               <Image
@@ -126,6 +126,7 @@ const Board = ({
                     top: `${top}%`,
                     left: `${left}%`,
                     transform: [{rotate: `${rotation}deg`}, {scale}],
+                    zIndex: 100,
                   },
                 ]}
               />

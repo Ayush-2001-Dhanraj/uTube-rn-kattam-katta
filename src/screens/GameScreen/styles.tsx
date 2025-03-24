@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,
     gap: 10,
+    padding: 10,
   },
 });
 

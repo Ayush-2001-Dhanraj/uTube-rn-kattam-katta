@@ -1,4 +1,10 @@
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import React from 'react';
 import {
   CIRCLE_LIGHT_IMG,
@@ -8,6 +14,8 @@ import {
   ScoreInterface,
 } from '../../constants';
 import styles from './styles';
+import Circle from '../Circle';
+import Cross from '../Cross';
 
 interface HeadingInterface {
   scores: ScoreInterface;
@@ -21,13 +29,19 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
   return (
     <View style={styles.headingContainer}>
       <View style={styles.headingBox}>
-        <Image source={CIRCLE_LIGHT_IMG} style={styles.crisCross} />
+        <Circle />
         <Text style={styles.headingTxt}>
           {currentMode === MODE.MULTI && scores.circle}
         </Text>
       </View>
+
       <TouchableOpacity style={styles.headingBox} disabled onPress={() => {}}>
-        <Text style={styles.heading}>Kattam Katta</Text>
+        <ImageBackground
+          source={require('../../assets/images/header.png')}
+          resizeMode="contain">
+          <View style={styles.logoImage} />
+        </ImageBackground>
+
         <View style={styles.modeLogoContainer}>
           <Image source={modeData?.left} style={styles.modeLogo} />
           <Text style={styles.vsTxt}>vs</Text>
@@ -56,8 +70,9 @@ const Heading = ({scores, currentMode, round}: HeadingInterface) => {
           <Text style={styles.headingTxt}>Round: {round}</Text>
         )}
       </TouchableOpacity>
+
       <View style={styles.headingBox}>
-        <Image source={CROSS_LIGHT_IMG} style={styles.crisCross} />
+        <Cross />
         <Text style={styles.headingTxt}>
           {currentMode === MODE.MULTI && scores.cross}
         </Text>

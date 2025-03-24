@@ -12,7 +12,10 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
 import SoundService from '../../SoundService';
 
-const artworkLocations = [CROSS_LIGHT_IMG, CIRCLE_LIGHT_IMG];
+const artworkLocations = [
+  require('../../assets/images/circle_main.png'),
+  require('../../assets/images/cross_main.png'),
+];
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -41,7 +44,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
 
   useEffect(() => {
     const tempArtworks = [];
-    for (let index = 0; index < 50; index++) {
+    for (let index = 0; index < 40; index++) {
       const randomTop = Math.random() * screenHeight;
       const randomLeft = Math.random() * (screenWidth + 200);
 
@@ -52,7 +55,13 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
               Math.floor(Math.random() * artworkLocations.length)
             ]
           }
-          style={[styles.artwork, {top: randomTop, left: randomLeft}]}
+          style={[
+            styles.artwork,
+            {
+              top: randomTop,
+              left: randomLeft,
+            },
+          ]}
         />,
       );
     }

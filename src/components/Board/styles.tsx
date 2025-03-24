@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     height: 250,
     width: 250,
     position: 'absolute',
-    zIndex: -2,
+    zIndex: -1,
   },
   topClaw: {top: -65, left: -65},
   bottomClaw: {

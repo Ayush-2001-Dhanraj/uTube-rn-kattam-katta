@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
     position: 'relative',
-    padding: 10,
+    // padding: 10,
   },
 });
 

@@ -1,8 +1,8 @@
 import {TouchableOpacity} from 'react-native';
-import EntoTcon from 'react-native-vector-icons/Entypo';
 import React from 'react';
 import styles from './styles';
-import normalize from '../../normalize';
+import Circle from '../Circle';
+import Cross from '../Cross';
 
 type CellProps = {
   name: string;
@@ -12,22 +12,14 @@ type CellProps = {
   iconColor: string;
 };
 
-const Cell = ({
-  name,
-  handlePress,
-  disabled,
-  fillColor,
-  iconColor,
-}: CellProps) => {
-  const options = ['circle', 'cross'];
+const Cell = ({name, handlePress, disabled, fillColor}: CellProps) => {
+  const options = {circle: <Circle />, cross: <Cross />};
   return (
     <TouchableOpacity
       style={[styles.container, {backgroundColor: fillColor}]}
-      disabled={options.includes(name) || disabled}
+      disabled={name in options || disabled}
       onPress={handlePress}>
-      {options.includes(name) && (
-        <EntoTcon size={normalize(40)} color={iconColor} name={name} />
-      )}
+      {name in options ? options[name as keyof typeof options] : null}
     </TouchableOpacity>
   );
 };

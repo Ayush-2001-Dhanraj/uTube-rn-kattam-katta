@@ -41,6 +41,10 @@ const styles = StyleSheet.create({
   vsTxt: {
     color: COLORS.text,
   },
+  logoImage: {
+    width: 250,
+    height: 75,
+  },
 });
 
 export default styles;

@@ -1,4 +1,10 @@
-import {SafeAreaView, Vibration} from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  Vibration,
+  View,
+} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
@@ -413,28 +419,42 @@ const GameScreen = ({route}: GameScreenProps) => {
 
   return (
     <>
-      <SafeAreaView style={styles.app}>
-        <Heading scores={scores} currentMode={currentMode} round={round} />
+      <ImageBackground
+        // source={require('../../assets/images/single_b.jpg')}
+        resizeMode="cover"
+        style={{flex: 1}}>
+        {/* <View
+          style={{
+            flex: 1,
+            position: 'absolute',
+            width: '200%',
+            height: '200%',
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          }}
+        /> */}
+        <SafeAreaView style={styles.app}>
+          <Heading scores={scores} currentMode={currentMode} round={round} />
 
-        <Board
-          boardElements={boardElements}
-          isCross={isCross}
-          winner={winner}
-          onPressCell={handleCellPress}
-          winningCombination={winningCombination}
-          disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
-          currentMode={currentMode}
-          scores={scores}
-        />
+          <Board
+            boardElements={boardElements}
+            isCross={isCross}
+            winner={winner}
+            onPressCell={handleCellPress}
+            winningCombination={winningCombination}
+            disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
+            currentMode={currentMode}
+            scores={scores}
+          />
 
-        <ActionSection
-          winner={winner}
-          currentMode={currentMode}
-          handleReset={handleReset}
-          handleNext={handleNext}
-          artworks={artworks}
-        />
-      </SafeAreaView>
+          <ActionSection
+            winner={winner}
+            currentMode={currentMode}
+            handleReset={handleReset}
+            handleNext={handleNext}
+            artworks={artworks}
+          />
+        </SafeAreaView>
+      </ImageBackground>
     </>
   );
 };
