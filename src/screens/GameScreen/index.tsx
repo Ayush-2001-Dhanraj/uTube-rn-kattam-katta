@@ -1,16 +1,12 @@
-import {
-  Image,
-  ImageBackground,
-  SafeAreaView,
-  Vibration,
-  View,
-} from 'react-native';
+import {Dimensions, SafeAreaView, Vibration, View} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
 import Heading from '../../components/Heading';
 import Board from '../../components/Board';
 import ActionSection from '../../components/ActionSection';
+import FastImage from 'react-native-fast-image';
+
 import {
   BoardElement,
   CIRCLE_WHITE_IMG,
@@ -23,6 +19,7 @@ import {
 } from '../../constants';
 import styles from './styles';
 import SoundService from '../../SoundService';
+import {useFocusEffect} from '@react-navigation/native';
 
 type GameScreenProps = NativeStackScreenProps<RootStackList, 'Game'>;
 
@@ -46,6 +43,8 @@ const GameScreen = ({route}: GameScreenProps) => {
   const [currentHero, setCurrentHero] = useState();
   const [currentOtherHero, setCurrentOtherHero] = useState();
   const [currentBot, setCurrentBot] = useState<null | any>();
+
+  const [playOverAnime, setPlayOverAnime] = useState(false);
 
   const handleCellPress = (index: number) => {
     Vibration.vibrate(100);
@@ -408,9 +407,14 @@ const GameScreen = ({route}: GameScreenProps) => {
         [MODE.AI_BOT, MODE.BOT_EASY, MODE.BOT_MID].includes(currentMode) &&
         winner === 'circle'
       ) {
-        if (SoundService.sounds['game_over']) {
-          SoundService.sounds['game_over'].setVolume(1); // Set volume (0.0 to 1.0)
-          SoundService.playSound('game_over');
+        setPlayOverAnime(true);
+        setTimeout(() => {
+          setPlayOverAnime(false);
+        }, 5000);
+
+        if (SoundService.sounds['lost']) {
+          SoundService.sounds['lost'].setVolume(1); // Set volume (0.0 to 1.0)
+          SoundService.playSound('lost');
         }
       } else {
         if (SoundService.sounds['win']) {
@@ -454,9 +458,43 @@ const GameScreen = ({route}: GameScreenProps) => {
     );
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (!winner && SoundService.sounds['game']) {
+        SoundService.sounds['game'].setVolume(1); // Set volume (0.0 to 1.0)
+        SoundService.sounds['game'].setNumberOfLoops(-1); // Loop indefinitely
+        SoundService.playSound('game');
+      }
+
+      return () => {
+        SoundService.stopSound('game'); // Stop when navigating away
+      };
+    }, [winner]),
+  );
+
+  useEffect(() => {
+    if (winner) {
+      SoundService.stopSound('game');
+    }
+  }, [winner]);
+
   return (
     <>
       <SafeAreaView style={styles.app}>
+        {playOverAnime && (
+          <FastImage
+            resizeMode="cover"
+            style={{
+              position: 'absolute',
+              top: 0,
+              zIndex: 100,
+              height: Dimensions.get('window').height,
+              width: Dimensions.get('window').width,
+            }}
+            source={require('../../assets/gifs/game-over-animation.gif')}
+          />
+        )}
+
         <Heading scores={scores} currentMode={currentMode} round={round} />
 
         <Board

@@ -1,5 +1,5 @@
 import {Dimensions, Image, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import styles from './styles';
 import Button from '../../components/Button';
 import {
@@ -11,6 +11,7 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
 import SoundService from '../../SoundService';
+import {useFocusEffect} from '@react-navigation/native';
 
 const artworkLocations = [
   require('../../assets/images/circle_main.png'),
@@ -67,6 +68,20 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     }
     setArtworks(tempArtworks);
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (SoundService.sounds['intro']) {
+        SoundService.sounds['intro'].setVolume(1); // Set volume (0.0 to 1.0)
+        SoundService.sounds['intro'].setNumberOfLoops(-1); // Loop indefinitely
+        SoundService.playSound('intro');
+      }
+
+      return () => {
+        SoundService.stopSound('intro'); // Stop when navigating away
+      };
+    }, []),
+  );
 
   const modes = [
     {key: MODE.SINGLES, label: 'Single', style: styles.single},

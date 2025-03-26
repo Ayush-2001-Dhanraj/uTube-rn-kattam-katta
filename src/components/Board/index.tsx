@@ -102,25 +102,24 @@ const Board = ({
     }
   }, [winner]);
 
-  // 🟢 Proper Circular Interpolation
   const heroTranslateX = heroAnimAngle.interpolate({
     inputRange: [0, 90, 180, 270, 360],
-    outputRange: [50, 0, -50, 0, 50], // X follows cos(θ)
+    outputRange: [50, 0, -50, 0, 50],
   });
 
   const heroTranslateY = heroAnimAngle.interpolate({
     inputRange: [0, 90, 180, 270, 360],
-    outputRange: [0, 50, 0, -50, 0], // Y follows sin(θ)
+    outputRange: [0, 50, 0, -50, 0],
   });
 
   const otherHeroTranslateX = otherHeroAnimAngle.interpolate({
     inputRange: [0, 90, 180, 270, 360],
-    outputRange: [-50, 0, 50, 0, -50], // Opposite circular motion
+    outputRange: [-50, 0, 50, 0, -50],
   });
 
   const otherHeroTranslateY = otherHeroAnimAngle.interpolate({
     inputRange: [0, 90, 180, 270, 360],
-    outputRange: [0, -50, 0, 50, 0], // Opposite circular motion
+    outputRange: [0, -50, 0, 50, 0],
   });
   return (
     <View
