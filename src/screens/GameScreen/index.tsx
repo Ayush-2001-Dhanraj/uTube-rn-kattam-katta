@@ -1,4 +1,12 @@
-import {Dimensions, SafeAreaView, Vibration, View} from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  Easing,
+  Image,
+  SafeAreaView,
+  Vibration,
+  View,
+} from 'react-native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackList} from '../../App';
@@ -20,6 +28,7 @@ import {
 import styles from './styles';
 import SoundService from '../../SoundService';
 import {useFocusEffect} from '@react-navigation/native';
+import COLORS from '../../colors';
 
 type GameScreenProps = NativeStackScreenProps<RootStackList, 'Game'>;
 
@@ -45,6 +54,8 @@ const GameScreen = ({route}: GameScreenProps) => {
   const [currentBot, setCurrentBot] = useState<null | any>();
 
   const [playOverAnime, setPlayOverAnime] = useState(false);
+  const [showHeroA, setShowHeroA] = useState(false);
+  const [showHeroB, setShowHeroB] = useState(false);
 
   const handleCellPress = (index: number) => {
     Vibration.vibrate(100);
@@ -165,6 +176,19 @@ const GameScreen = ({route}: GameScreenProps) => {
     return null; // Game is still ongoing
   };
 
+  const handleHeroIntros = () => {
+    setShowHeroA(true);
+
+    setTimeout(() => {
+      setShowHeroA(false);
+      setShowHeroB(true);
+    }, 2000);
+
+    setTimeout(() => {
+      setShowHeroB(false);
+    }, 4000);
+  };
+
   const handleReset = () => {
     setBoardElements(new Array(9).fill('empty', 0, 9));
     setWinner('');
@@ -172,6 +196,8 @@ const GameScreen = ({route}: GameScreenProps) => {
     setWinningCombination([]);
     setRound(1);
     setArtworks([]);
+    getNewHeroes();
+    handleHeroIntros();
   };
 
   const handleNext = () => {
@@ -383,6 +409,39 @@ const GameScreen = ({route}: GameScreenProps) => {
     }
   }, [isCross, isLoading, winner, currentMode]);
 
+  const getNewHeroes = () => {
+    const leftHeroes = [
+      require('../../assets/images/hero_2.png'),
+      require('../../assets/images/hero_5.png'),
+      require('../../assets/images/hero_4.png'),
+      require('../../assets/images/hero_1.png'),
+      require('../../assets/images/hero_6.png'),
+    ];
+    const rightHeroes = [
+      require('../../assets/images/hero_3.png'),
+      require('../../assets/images/hero_7.png'),
+      require('../../assets/images/hero_1.png'),
+      require('../../assets/images/hero_6.png'),
+    ];
+
+    const bots = [
+      require('../../assets/images/bot_1.png'),
+      require('../../assets/images/bot_2.png'),
+      require('../../assets/images/bot_3.png'),
+      require('../../assets/images/bot_4.png'),
+    ];
+
+    if ([MODE.AI_BOT, MODE.BOT_EASY, MODE.BOT_MID].includes(currentMode)) {
+      setCurrentBot(bots[Math.floor(Math.random() * bots.length)]);
+    } else {
+      setCurrentBot(null);
+    }
+    setCurrentHero(rightHeroes[Math.floor(Math.random() * rightHeroes.length)]);
+    setCurrentOtherHero(
+      leftHeroes[Math.floor(Math.random() * leftHeroes.length)],
+    );
+  };
+
   useEffect(() => {
     if (isMounted.current) checkIsGameOver();
     else isMounted.current = true;
@@ -425,39 +484,6 @@ const GameScreen = ({route}: GameScreenProps) => {
     }
   }, [winner]);
 
-  useEffect(() => {
-    const leftHeroes = [
-      require('../../assets/images/hero_2.png'),
-      require('../../assets/images/hero_5.png'),
-      require('../../assets/images/hero_4.png'),
-      require('../../assets/images/hero_1.png'),
-      require('../../assets/images/hero_6.png'),
-    ];
-    const rightHeroes = [
-      require('../../assets/images/hero_3.png'),
-      require('../../assets/images/hero_7.png'),
-      require('../../assets/images/hero_1.png'),
-      require('../../assets/images/hero_6.png'),
-    ];
-
-    const bots = [
-      require('../../assets/images/bot_1.png'),
-      require('../../assets/images/bot_2.png'),
-      require('../../assets/images/bot_3.png'),
-      require('../../assets/images/bot_4.png'),
-    ];
-
-    if ([MODE.AI_BOT, MODE.BOT_EASY, MODE.BOT_MID].includes(currentMode)) {
-      setCurrentBot(bots[Math.floor(Math.random() * bots.length)]);
-    } else {
-      setCurrentBot(null);
-    }
-    setCurrentHero(rightHeroes[Math.floor(Math.random() * rightHeroes.length)]);
-    setCurrentOtherHero(
-      leftHeroes[Math.floor(Math.random() * leftHeroes.length)],
-    );
-  }, []);
-
   useFocusEffect(
     useCallback(() => {
       if (!winner && SoundService.sounds['game']) {
@@ -478,6 +504,11 @@ const GameScreen = ({route}: GameScreenProps) => {
     }
   }, [winner]);
 
+  useEffect(() => {
+    getNewHeroes();
+    handleHeroIntros();
+  }, []);
+
   return (
     <>
       <SafeAreaView style={styles.app}>
@@ -493,6 +524,43 @@ const GameScreen = ({route}: GameScreenProps) => {
             }}
             source={require('../../assets/gifs/game-over-animation.gif')}
           />
+        )}
+
+        {(showHeroA || showHeroB) && (
+          <>
+            <View
+              style={{
+                position: 'absolute',
+                height: Dimensions.get('window').height,
+                width: Dimensions.get('window').width,
+                backgroundColor: 'black',
+                zIndex: 100,
+              }}
+            />
+            {showHeroA && (
+              <Animated.View style={[styles.heroImageContainer]}>
+                <Image
+                  source={currentBot || currentOtherHero}
+                  style={{
+                    height: Dimensions.get('window').height * 2,
+                    width: Dimensions.get('window').width,
+                  }}
+                />
+              </Animated.View>
+            )}
+
+            {showHeroB && (
+              <Animated.View style={[styles.otherHeroImageContainer]}>
+                <Image
+                  source={currentHero}
+                  style={{
+                    height: Dimensions.get('window').height * 2,
+                    width: Dimensions.get('window').width,
+                  }}
+                />
+              </Animated.View>
+            )}
+          </>
         )}
 
         <Heading scores={scores} currentMode={currentMode} round={round} />

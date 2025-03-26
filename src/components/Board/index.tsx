@@ -128,7 +128,7 @@ const Board = ({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        marginTop: 100,
+        marginTop: 50,
       }}>
       <Animated.View
         style={[
