@@ -43,6 +43,10 @@ const GameScreen = ({route}: GameScreenProps) => {
 
   const [artworks, setArtworks] = useState<any[]>([]);
 
+  const [currentHero, setCurrentHero] = useState();
+  const [currentOtherHero, setCurrentOtherHero] = useState();
+  const [currentBot, setCurrentBot] = useState<null | any>();
+
   const handleCellPress = (index: number) => {
     Vibration.vibrate(100);
     if (SoundService.sounds['tap']) {
@@ -417,44 +421,66 @@ const GameScreen = ({route}: GameScreenProps) => {
     }
   }, [winner]);
 
+  useEffect(() => {
+    const leftHeroes = [
+      require('../../assets/images/hero_2.png'),
+      require('../../assets/images/hero_5.png'),
+      require('../../assets/images/hero_4.png'),
+      require('../../assets/images/hero_1.png'),
+      require('../../assets/images/hero_6.png'),
+    ];
+    const rightHeroes = [
+      require('../../assets/images/hero_3.png'),
+      require('../../assets/images/hero_7.png'),
+      require('../../assets/images/hero_1.png'),
+      require('../../assets/images/hero_6.png'),
+    ];
+
+    const bots = [
+      require('../../assets/images/bot_1.png'),
+      require('../../assets/images/bot_2.png'),
+      require('../../assets/images/bot_3.png'),
+      require('../../assets/images/bot_4.png'),
+    ];
+
+    if ([MODE.AI_BOT, MODE.BOT_EASY, MODE.BOT_MID].includes(currentMode)) {
+      setCurrentBot(bots[Math.floor(Math.random() * bots.length)]);
+    } else {
+      setCurrentBot(null);
+    }
+    setCurrentHero(rightHeroes[Math.floor(Math.random() * rightHeroes.length)]);
+    setCurrentOtherHero(
+      leftHeroes[Math.floor(Math.random() * leftHeroes.length)],
+    );
+  }, []);
+
   return (
     <>
-      <ImageBackground
-        // source={require('../../assets/images/single_b.jpg')}
-        resizeMode="cover"
-        style={{flex: 1}}>
-        {/* <View
-          style={{
-            flex: 1,
-            position: 'absolute',
-            width: '200%',
-            height: '200%',
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          }}
-        /> */}
-        <SafeAreaView style={styles.app}>
-          <Heading scores={scores} currentMode={currentMode} round={round} />
+      <SafeAreaView style={styles.app}>
+        <Heading scores={scores} currentMode={currentMode} round={round} />
 
-          <Board
-            boardElements={boardElements}
-            isCross={isCross}
-            winner={winner}
-            onPressCell={handleCellPress}
-            winningCombination={winningCombination}
-            disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
-            currentMode={currentMode}
-            scores={scores}
-          />
+        <Board
+          boardElements={boardElements}
+          isCross={isCross}
+          winner={winner}
+          onPressCell={handleCellPress}
+          winningCombination={winningCombination}
+          disabled={(currentMode.includes('BOT') && !isCross) || isLoading}
+          currentMode={currentMode}
+          scores={scores}
+          currentHero={currentHero}
+          currentOtherHero={currentOtherHero}
+          currentBot={currentBot}
+        />
 
-          <ActionSection
-            winner={winner}
-            currentMode={currentMode}
-            handleReset={handleReset}
-            handleNext={handleNext}
-            artworks={artworks}
-          />
-        </SafeAreaView>
-      </ImageBackground>
+        <ActionSection
+          winner={winner}
+          currentMode={currentMode}
+          handleReset={handleReset}
+          handleNext={handleNext}
+          artworks={artworks}
+        />
+      </SafeAreaView>
     </>
   );
 };

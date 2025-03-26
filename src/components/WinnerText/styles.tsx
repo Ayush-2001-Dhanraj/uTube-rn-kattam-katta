@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
     fontSize: normalize(20),
     color: COLORS.primary,
     marginTop: 10,
+    backgroundColor: COLORS.text_secondary,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  invisible: {
+    opacity: 0,
   },
 });
 

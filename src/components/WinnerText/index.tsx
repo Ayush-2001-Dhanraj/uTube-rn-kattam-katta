@@ -50,7 +50,13 @@ const WinnerText = ({winner, scores, currentMode}: WinnerTextInterface) => {
     }
   }, [currentMode, winner, scores]);
 
-  return <Text style={styles.winnerTxt}>{winner && message}</Text>;
+  return (
+    <>
+      <Text style={[styles.winnerTxt, !winner && styles.invisible]}>
+        {message}
+      </Text>
+    </>
+  );
 };
 
 export default WinnerText;

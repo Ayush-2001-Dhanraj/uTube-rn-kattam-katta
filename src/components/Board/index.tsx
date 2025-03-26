@@ -1,5 +1,13 @@
-import {StyleSheet, Text, View, FlatList, Image, Vibration} from 'react-native';
-import React from 'react';
+import {
+  Text,
+  View,
+  FlatList,
+  Image,
+  Animated,
+  ImageBackground,
+  Easing,
+} from 'react-native';
+import React, {useEffect, useRef} from 'react';
 import Cell from '../Cell';
 import EntoTcon from 'react-native-vector-icons/Entypo';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -18,6 +26,9 @@ interface BoardInterface {
   disabled: boolean;
   currentMode: keyof typeof MODE;
   scores: ScoreInterface;
+  currentHero: any;
+  currentOtherHero: any;
+  currentBot: any;
 }
 
 const Board = ({
@@ -29,17 +40,132 @@ const Board = ({
   disabled,
   currentMode,
   scores,
+  currentHero,
+  currentOtherHero,
+  currentBot,
 }: BoardInterface) => {
   const generateRandomPosition = () => {
-    const top = Math.random() * 150 - 75; // Random between -50 and 50
+    const top = Math.random() * 150 - 100; // Random between -50 and 50
     const left = Math.random() * 100 - 50; // Random between -50 and 50
     const rotation = Math.random() * 30 - 15; // Random rotation between -15 and 15 degrees
     const scale = Math.random() * 0.5 + 0.5; // Random scale between 0.5 and 1.0
     return {top, left, rotation, scale};
   };
 
+  const heroAnimAngle = useRef(new Animated.Value(0)).current;
+  const otherHeroAnimAngle = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (!winner) {
+      const animateCircularMotion = (animatedValue: Animated.Value) => {
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(animatedValue, {
+              toValue: 100,
+              duration: 8000,
+              easing: Easing.linear,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: -100,
+              duration: 8000,
+              easing: Easing.bounce,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: 100,
+              duration: 8000,
+              easing: Easing.linear,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: -100,
+              duration: 8000,
+              easing: Easing.bounce,
+              useNativeDriver: false,
+            }),
+            Animated.timing(animatedValue, {
+              toValue: 100,
+              duration: 8000,
+              easing: Easing.linear,
+              useNativeDriver: false,
+            }),
+          ]),
+        ).start();
+      };
+
+      animateCircularMotion(heroAnimAngle);
+      animateCircularMotion(otherHeroAnimAngle);
+    } else {
+      heroAnimAngle.stopAnimation();
+      otherHeroAnimAngle.stopAnimation();
+    }
+  }, [winner]);
+
+  // 🟢 Proper Circular Interpolation
+  const heroTranslateX = heroAnimAngle.interpolate({
+    inputRange: [0, 90, 180, 270, 360],
+    outputRange: [50, 0, -50, 0, 50], // X follows cos(θ)
+  });
+
+  const heroTranslateY = heroAnimAngle.interpolate({
+    inputRange: [0, 90, 180, 270, 360],
+    outputRange: [0, 50, 0, -50, 0], // Y follows sin(θ)
+  });
+
+  const otherHeroTranslateX = otherHeroAnimAngle.interpolate({
+    inputRange: [0, 90, 180, 270, 360],
+    outputRange: [-50, 0, 50, 0, -50], // Opposite circular motion
+  });
+
+  const otherHeroTranslateY = otherHeroAnimAngle.interpolate({
+    inputRange: [0, 90, 180, 270, 360],
+    outputRange: [0, -50, 0, 50, 0], // Opposite circular motion
+  });
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        marginTop: 100,
+      }}>
+      <Animated.View
+        style={[
+          styles.heroImageContainer,
+          {
+            transform: [
+              {translateX: heroTranslateX},
+              {translateY: heroTranslateY},
+            ],
+          },
+        ]}>
+        <Image
+          source={currentBot || currentOtherHero}
+          style={styles.heroImage}
+          resizeMode="contain"
+        />
+      </Animated.View>
+
+      {/* Floating Animated Other Hero Image */}
+      <Animated.View
+        style={[
+          styles.otherHeroImageContainer,
+          {
+            transform: [
+              {translateX: otherHeroTranslateX},
+              {translateY: otherHeroTranslateY},
+            ],
+          },
+        ]}>
+        <Image
+          source={currentHero}
+          style={styles.otherHeroImage}
+          resizeMode="contain"
+        />
+      </Animated.View>
+
       <View style={{alignItems: 'center'}}>
         {winningCombination.length ? (
           <AntIcon size={40} color={COLORS.primary} name="smile-circle" />
@@ -124,7 +250,7 @@ const Board = ({
                   styles.clawImage,
                   {
                     top: `${top}%`,
-                    left: `${left}%`,
+                    left: `${left + 10}%`,
                     transform: [{rotate: `${rotation}deg`}, {scale}],
                     zIndex: 100,
                   },

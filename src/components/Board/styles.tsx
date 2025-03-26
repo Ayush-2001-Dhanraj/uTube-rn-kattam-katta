@@ -32,6 +32,24 @@ const styles = StyleSheet.create({
     right: -65,
     transform: [{rotate: '180deg'}],
   },
+  heroImageContainer: {
+    position: 'absolute',
+    top: -50,
+    right: 0,
+  },
+  heroImage: {
+    width: 300,
+    height: 300,
+  },
+  otherHeroImageContainer: {
+    position: 'absolute',
+    top: -50,
+    left: 0,
+  },
+  otherHeroImage: {
+    width: 300,
+    height: 300,
+  },
 });
 
 export default styles;
